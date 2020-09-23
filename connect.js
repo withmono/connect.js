@@ -8,12 +8,13 @@ const anonFunc = () => {};
  * @param {*} key public key gotten from Mono dashboard || REQUIRED
  * @param {*} options optional params functions the be invoked on success and on close
  */
-function connect(key, {onClose = anonFunc, onSuccess = anonFunc}) {
+function connect(key, {onClose = anonFunc, onSuccess = anonFunc, onLoad = anonFunc}) {
   if(!(this instanceof connect)) return new connect(key, {onClose, onSuccess});
 
   if (!key) throw new Error('YOUR MONO PUBLIC KEY IS REQUIRED');
 
   this.key = key;
+  connect.prototype.onLoad = onLoad;
   connect.prototype.onClose = onClose;
   connect.prototype.onSuccess = onSuccess;
   connect.prototype.utils = utils();
@@ -22,7 +23,7 @@ function connect(key, {onClose = anonFunc, onSuccess = anonFunc}) {
 /**this is the entry function to setup the connect widget */
 connect.prototype.setup = function () {
   connect.prototype.utils.addStyle();
-  connect.prototype.utils.init(this.key);
+  connect.prototype.utils.init(this.key, this.onLoad);
 
   window.addEventListener("message", (event) => {
     switch(event.data.type) {
@@ -38,12 +39,12 @@ connect.prototype.setup = function () {
 
 /**connect object property to open widget/modal */
 connect.prototype.open = function () {
-  connect.prototype.utils.openWidget()
+  connect.prototype.utils.openWidget();
 }
 
 /**connect object property to hide modal and clean up to avoid leak */
 connect.prototype.close = function () {
-  window.removeEventListener("message", () => {})
+  window.removeEventListener("message", () => {});
   connect.prototype.utils.closeWidget();
   this.onClose();
 }

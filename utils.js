@@ -2,77 +2,78 @@
 
 var utils = () => {
   
-    function init(key) {
-        var widget_div = document.createElement("div");
-        widget_div.setAttribute("id", "mono-connect--widget-div");
-        widget_div.setAttribute("style", containerStyle);
-        document.body.parentNode.insertBefore(widget_div, document.body.nextSibling);
+  function init(key, onload) {
+    var widget_div = document.createElement("div");
+    widget_div.setAttribute("id", "mono-connect--widget-div");
+    widget_div.setAttribute("style", containerStyle);
+    document.body.parentNode.insertBefore(widget_div, document.body.nextSibling);
 
-        var iframe = document.createElement("IFRAME");
-        iframe.setAttribute("src", `https://connect.withmono.com/?key=${key}`);
-        iframe.setAttribute("style", iframeStyle);
-        iframe.setAttribute("id", "mono-connect--frame-id")
-        iframe.setAttribute("allowfullscreen", "true");
-        iframe.setAttribute("frameborder", 0);
-        iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation");
-        iframe.onload = function() {
-          var loader = document.getElementById("mono-connect-app-loader");
-          loader.style.display = "none";
-        }
-
-        var loader = createLoader()
-        document.getElementById('mono-connect--widget-div').appendChild(loader)
-        document.getElementById('mono-connect--widget-div').appendChild(iframe);
-    }
-    
-    function openWidget() {
-        var container = document.getElementById("mono-connect--widget-div");
-        var frame = document.getElementById("mono-connect--frame-id");
-        container.style.visibility = "visible";
-        setTimeout(() => {
-            frame.style.visibility = "visible";
-        }, 2000)
+    var iframe = document.createElement("IFRAME");
+    iframe.setAttribute("src", `https://connect.withmono.com/?key=${key}`);
+    iframe.setAttribute("style", iframeStyle);
+    iframe.setAttribute("id", "mono-connect--frame-id")
+    iframe.setAttribute("allowfullscreen", "true");
+    iframe.setAttribute("frameborder", 0);
+    iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation");
+    iframe.onload = function() {
+      var loader = document.getElementById("mono-connect-app-loader");
+      loader.style.display = "none";
+      onload()
     }
 
-    function closeWidget() {
-        var container = document.getElementById("mono-connect--widget-div");
-        var frame = document.getElementById("mono-connect--frame-id");
-        container.style.visibility = "hidden";
-        frame.style.visibility = "hidden";
-    }
+    var loader = createLoader();
+    document.getElementById('mono-connect--widget-div').appendChild(loader);
+    document.getElementById('mono-connect--widget-div').appendChild(iframe);
+  }
+  
+  function openWidget() {
+    var container = document.getElementById("mono-connect--widget-div");
+    var frame = document.getElementById("mono-connect--frame-id");
+    container.style.visibility = "visible";
+    setTimeout(() => {
+      frame.style.visibility = "visible";
+    }, 2000);
+  }
 
-    function createLoader() {
-        let loaderDiv = document.createElement("div");
-        let childDiv = document.createElement("div");
-        loaderDiv.setAttribute("id", "mono-connect-app-loader")
-        loaderDiv.classList.add("app-loader");
-        childDiv.classList.add("app-loader__spinner");
+  function closeWidget() {
+    var container = document.getElementById("mono-connect--widget-div");
+    var frame = document.getElementById("mono-connect--frame-id");
+    container.style.visibility = "hidden";
+    frame.style.visibility = "hidden";
+  }
 
-        for(let i =0; i < 12; i++){
-          let div = document.createElement("div");
-          childDiv.appendChild(div);
-        }
-        loaderDiv.appendChild(childDiv);
-        return loaderDiv;
-    }
+  function createLoader() {
+    let loaderDiv = document.createElement("div");
+    let childDiv = document.createElement("div");
+    loaderDiv.setAttribute("id", "mono-connect-app-loader")
+    loaderDiv.classList.add("app-loader");
+    childDiv.classList.add("app-loader__spinner");
 
-    function addStyle() {
-        var styleSheet = document.createElement("style")
-        styleSheet.type = "text/css"
-        styleSheet.innerText = loaderStyles;
-        document.head.appendChild(styleSheet);
+    for(let i =0; i < 12; i++){
+      let div = document.createElement("div");
+      childDiv.appendChild(div);
     }
+    loaderDiv.appendChild(childDiv);
+    return loaderDiv;
+  }
 
-    return {
-        openWidget: openWidget,
-        closeWidget: closeWidget,
-        createLoader: createLoader,
-        addStyle: addStyle,
-        init
-    }
+  function addStyle() {
+    var styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = loaderStyles;
+    document.head.appendChild(styleSheet);
+  }
+
+  return {
+    openWidget: openWidget,
+    closeWidget: closeWidget,
+    createLoader: createLoader,
+    addStyle: addStyle,
+    init
+  };
 }
 
-module.exports = utils
+module.exports = utils;
 
 const containerStyle = "position:fixed;overflow: hidden;display: flex;justify-content: center;align-items: center;z-index: 999999999;height: 100%;width: 100%;color: transparent;background: rgba(0, 0, 0, 0.6);visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
 const iframeStyle = "position: fixed;overflow: hidden;z-index: 999999999;width: 100%;height: 100%;transition: opacity 0.3s ease 0s;visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
@@ -197,4 +198,4 @@ const loaderStyles = `.app-loader {
   -webkit-transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
   transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
 }
-`
+`;
