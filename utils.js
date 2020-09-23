@@ -3,10 +3,10 @@
 var utils = () => {
   
   function init(key, onload) {
-    var widget_div = document.createElement("div");
-    widget_div.setAttribute("id", "mono-connect--widget-div");
-    widget_div.setAttribute("style", containerStyle);
-    document.body.parentNode.insertBefore(widget_div, document.body.nextSibling);
+    var container = document.createElement("div");
+    container.setAttribute("id", "mono-connect--widget-div");
+    container.setAttribute("style", containerStyle);
+    document.body.parentNode.insertBefore(container, document.body.nextSibling);
 
     var iframe = document.createElement("IFRAME");
     iframe.setAttribute("src", `https://connect.withmono.com/?key=${key}`);
