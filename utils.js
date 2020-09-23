@@ -37,9 +37,10 @@ var utils = () => {
     }
 
     function closeWidget() {
-        var parentWindow = window.parent;
-        var body = parentWindow.document.body;
-        var remove = body.removeChild(body.childNodes[0]);
+        var container = document.getElementById("mono-connect--widget-div");
+        var frame = document.getElementById("mono-connect--frame-id");
+        container.style.visibility = "hidden";
+        frame.style.visibility = "hidden";
     }
 
     function createLoader() {
