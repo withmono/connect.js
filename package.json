@@ -1,0 +1,29 @@
+{
+  "name": "connect.js",
+  "version": "0.0.1",
+  "description": "Mono connect script",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack -p --config ./webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withmono/connect.js.git"
+  },
+  "keywords": [
+    "mono",
+    "connect",
+    "widget"
+  ],
+  "author": "Mono devs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/withmono/connect.js/issues"
+  },
+  "homepage": "https://github.com/withmono/connect.js#readme",
+  "devDependencies": {
+    "terser-webpack-plugin": "^4.2.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}
