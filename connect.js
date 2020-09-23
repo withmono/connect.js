@@ -3,6 +3,11 @@
 var utils = require("./utils");
 const anonFunc = () => {};
 
+/**
+ * This function create a connect object and returns it's properties
+ * @param {*} key public key gotten from Mono dashboard || REQUIRED
+ * @param {*} options optional params functions the be invoked on success and on close
+ */
 function connect(key, {onClose = anonFunc, onSuccess = anonFunc}) {
   if(!(this instanceof connect)) return new connect(key, {onClose, onSuccess});
 
@@ -14,6 +19,7 @@ function connect(key, {onClose = anonFunc, onSuccess = anonFunc}) {
   connect.prototype.utils = utils();
 }
 
+/**this is the entry function to setup the connect widget */
 connect.prototype.setup = function () {
   connect.prototype.utils.addStyle();
   connect.prototype.utils.init(this.key);
@@ -30,14 +36,16 @@ connect.prototype.setup = function () {
   })
 }
 
+/**connect object property to open widget/modal */
 connect.prototype.open = function () {
   connect.prototype.utils.openWidget()
 }
 
+/**connect object property to hide modal and clean up to avoid leak */
 connect.prototype.close = function () {
   window.removeEventListener("message", () => {})
   connect.prototype.utils.closeWidget();
   this.onClose();
 }
 
-window.connect = connect;
+window.connect = connect; // make connect available globally
