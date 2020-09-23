@@ -1,6 +1,7 @@
 "use strict";
 
 var utils = require("./utils");
+const anonFunc = () => {};
 
 function connect(key, {onClose = anonFunc, onSuccess = anonFunc}) {
   if(!(this instanceof connect)) return new connect(key, {onClose, onSuccess});

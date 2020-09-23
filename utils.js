@@ -1,7 +1,5 @@
 "use strict";
 
-const anonFunc = () => {};
-
 var utils = () => {
   
     function init(key) {
