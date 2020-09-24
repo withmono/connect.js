@@ -4,11 +4,15 @@ var utils = require("./utils");
 const anonFunc = () => {};
 
 /**
- * This function create a connect object and returns it's properties
- * @param {*} key public key gotten from Mono dashboard || REQUIRED
- * @param {*} options optional params functions the be invoked on success and on close
+ * This function creates a connect object and returns it's properties
+ * @param {*} key public key gotten from Mono dashboard - REQUIRED
+ * @param {*} options optional params functions the be invoked on success, on load and on close
  */
-function connect(key, {onClose = anonFunc, onSuccess = anonFunc, onLoad = anonFunc}) {
+function connect(key, {
+  onClose = anonFunc, 
+  onSuccess = anonFunc, 
+  onLoad = anonFunc
+}) {
   if(!(this instanceof connect)) return new connect(key, {onClose, onSuccess});
 
   if (!key) throw new Error('YOUR MONO PUBLIC KEY IS REQUIRED');
@@ -31,7 +35,7 @@ connect.prototype.setup = function () {
         connect.prototype.close();
         break;
       case "mono.modal.linked":
-        this.onSuccess({...event.data.response})
+        this.onSuccess({...event.data.response});
         break;
     }
   })
