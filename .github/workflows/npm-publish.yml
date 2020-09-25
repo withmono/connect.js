@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@develop
+      uses: actions/checkout@master
     - name: Set up Node.js
-      uses: actions/setup-node@develop
+      uses: actions/setup-node@master
       with:
         node-version: 10.0.0
     - name: Publish if version has been updated
