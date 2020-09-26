@@ -29,9 +29,12 @@ var utils = () => {
   function openWidget() {
     var container = document.getElementById("mono-connect--widget-div");
     var frame = document.getElementById("mono-connect--frame-id");
+    var loader = document.getElementById("mono-connect-app-loader");
     container.style.visibility = "visible";
+    loader.style.display = "block";
     setTimeout(() => {
       frame.style.visibility = "visible";
+      loader.style.display = "none";
     }, 2000);
   }
 

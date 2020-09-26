@@ -17,13 +17,17 @@ import React from 'react';
 import * as MonoConnect from '@mono.co/connect.js';
 
 export default function App() {
-  const monoConnect = React.useCallback(() => {
-    return new connect("PUBLIC_KEY", {
+  const monoConnect = React.useMemo(() => {
+    const monoInstance = new connect("PUBLIC_KEY", {
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
       onSuccess: ({ id }) => console.log(`Linked successfully: ${id}`)
     })
-  })
+
+    monoInstance.setup()
+    
+    return monoInstance;
+  }, [])
 
   return (
     <div>

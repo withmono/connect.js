@@ -54,3 +54,5 @@ connect.prototype.close = function () {
 }
 
 window.connect = connect; // make connect available globally
+
+module.exports = connect;
