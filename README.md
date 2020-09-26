@@ -44,7 +44,7 @@ To create an instance of the connect object, you can pass the following paramete
 | options: ```onClose: () => void```, ```onLoad: () => void```, ```onSuccess: ({ id }) => void```           | false       | object      |
 
 ## Connect object properties
-The connect object returns some properties for you to interaction with the widget:
+The connect object returns some properties for you to be able interact with the widget:
 
 | Function        | Description |
 | --------------- | ----------- |
