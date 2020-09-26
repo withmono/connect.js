@@ -14,11 +14,11 @@ npm install @mono.co/connect.js
 ## Usage
 ```js
 import React from 'react';
-import * as MonoConnect from '@mono.co/connect.js';
+import MonoConnect from '@mono.co/connect.js';
 
 export default function App() {
   const monoConnect = React.useMemo(() => {
-    const monoInstance = new connect("PUBLIC_KEY", {
+    const monoInstance = new MonoConnect("PUBLIC_KEY", {
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
       onSuccess: ({ id }) => console.log(`Linked successfully: ${id}`)

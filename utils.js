@@ -17,7 +17,9 @@ var utils = () => {
     iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
-      loader.style.display = "none";
+      if(iframe.style.visibility === "visible") {
+        loader.style.display = "none";
+      }
       onload()
     }
 
@@ -29,12 +31,12 @@ var utils = () => {
   function openWidget() {
     var container = document.getElementById("mono-connect--widget-div");
     var frame = document.getElementById("mono-connect--frame-id");
-    var loader = document.getElementById("mono-connect-app-loader");
+    // var loader = document.getElementById("mono-connect-app-loader");
     container.style.visibility = "visible";
-    loader.style.display = "block";
+    // loader.style.display = "block";
     setTimeout(() => {
       frame.style.visibility = "visible";
-      loader.style.display = "none";
+      // loader.style.display = "none";
     }, 2000);
   }
 
