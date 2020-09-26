@@ -13,6 +13,8 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname),
+    library: '@mono.co/connect.js',
+    libraryTarget: 'umd',
   },
 
 	optimization: {
