@@ -1,6 +1,6 @@
 {
-  "name": "@mono/connect.js",
-  "version": "0.0.2",
+  "name": "@mono.co/connect.js",
+  "version": "0.0.3",
   "description": "Mono connect script",
   "main": "index.js",
   "scripts": {
