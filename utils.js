@@ -3,6 +3,14 @@
 var utils = () => {
   
   function init(key, onload) {
+    // check if container and iframe is already rendered on the DOM
+    if(
+      document.getElementById('mono-connect--widget-div')
+      && document.getElementById("mono-connect--frame-id")
+    ) {
+      return;
+    }
+
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
     container.setAttribute("style", containerStyle);
@@ -14,6 +22,7 @@ var utils = () => {
     iframe.setAttribute("id", "mono-connect--frame-id")
     iframe.setAttribute("allowfullscreen", "true");
     iframe.setAttribute("frameborder", 0);
+    iframe.setAttribute("title", "Mono connect")
     iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
@@ -31,13 +40,10 @@ var utils = () => {
   function openWidget() {
     var container = document.getElementById("mono-connect--widget-div");
     var frame = document.getElementById("mono-connect--frame-id");
-    // var loader = document.getElementById("mono-connect-app-loader");
+    var loader = document.getElementById("mono-connect-app-loader");
     container.style.visibility = "visible";
-    // loader.style.display = "block";
-    setTimeout(() => {
-      frame.style.visibility = "visible";
-      // loader.style.display = "none";
-    }, 2000);
+    loader.style.display = "block";
+    setTimeout(() => { frame.style.visibility = "visible"; }, 2000);
   }
 
   function closeWidget() {
