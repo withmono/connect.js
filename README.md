@@ -21,7 +21,7 @@ export default function App() {
     const monoInstance = new MonoConnect("PUBLIC_KEY", {
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
-      onSuccess: ({ id }) => console.log(`Linked successfully: ${id}`)
+      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`)
     })
 
     monoInstance.setup()
