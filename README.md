@@ -21,7 +21,7 @@ export default function App() {
     const monoInstance = new MonoConnect("PUBLIC_KEY", {
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
-      onSuccess: ({ id }) => console.log(`Linked successfully: ${id}`)
+      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`)
     })
 
     monoInstance.setup()
@@ -45,7 +45,7 @@ To create an instance of the connect object, you can pass the following paramete
 | Param              | Required    | Type        |
 | ------------------ | ----------- | ----------- |
 | key                | true        | string      |
-| options: ```onClose: () => void```, ```onLoad: () => void```, ```onSuccess: ({ id }) => void```           | false       | object      |
+| options: ```onClose: () => void```, ```onLoad: () => void```, ```onSuccess: ({ code }) => void```           | false       | object      |
 
 ## Connect object properties
 The connect object returns some properties for you to be able interact with the widget:
