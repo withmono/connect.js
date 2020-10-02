@@ -14,7 +14,7 @@ var utils = () => {
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
     container.setAttribute("style", containerStyle);
-    document.body.parentNode.insertBefore(container, document.body.nextSibling);
+    document.body.insertBefore(container, document.body.childNodes[0]);
 
     var iframe = document.createElement("IFRAME");
     iframe.setAttribute("src", `https://connect.withmono.com/?key=${key}`);
@@ -36,21 +36,42 @@ var utils = () => {
     document.getElementById('mono-connect--widget-div').appendChild(loader);
     document.getElementById('mono-connect--widget-div').appendChild(iframe);
   }
+
+  function turnOnVisibility() {
+    var container = document.getElementById("mono-connect--widget-div");
+    var frame = document.getElementById("mono-connect--frame-id");
+    container.style.display = "flex";
+    frame.style.display = "block";
+    container.style.visibility = "visible";
+    frame.style.visibility = "visible";
+  }
+
+  function turnOffVisibility() {
+    var container = document.getElementById("mono-connect--widget-div");
+    var frame = document.getElementById("mono-connect--frame-id");
+    container.style.display = "none";
+    frame.style.display = "none";
+    container.style.visibility = "hidden";
+    frame.style.visibility = "hidden";
+  }
   
   function openWidget() {
     var container = document.getElementById("mono-connect--widget-div");
-    var frame = document.getElementById("mono-connect--frame-id");
     var loader = document.getElementById("mono-connect-app-loader");
+    var frame = document.getElementById("mono-connect--frame-id");
     container.style.visibility = "visible";
+    container.style.display = "flex";
     loader.style.display = "block";
-    setTimeout(() => { frame.style.visibility = "visible"; }, 2000);
+
+    setTimeout(() => { 
+      turnOnVisibility(); 
+      frame.focus({preventScroll: false})
+      container.focus({preventScroll: false})
+    }, 2000);
   }
 
   function closeWidget() {
-    var container = document.getElementById("mono-connect--widget-div");
-    var frame = document.getElementById("mono-connect--frame-id");
-    container.style.visibility = "hidden";
-    frame.style.visibility = "hidden";
+    turnOffVisibility()
   }
 
   function createLoader() {
@@ -86,11 +107,14 @@ var utils = () => {
 
 module.exports = utils;
 
-const containerStyle = "position:fixed;overflow: hidden;display: flex;justify-content: center;align-items: center;z-index: 999999999;height: 100%;width: 100%;color: transparent;background: rgba(0, 0, 0, 0.6);visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
-const iframeStyle = "position: fixed;overflow: hidden;z-index: 999999999;width: 100%;height: 100%;transition: opacity 0.3s ease 0s;visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
+const containerStyle = "position:fixed;overflow: hidden;display: none;justify-content: center;align-items: center;z-index: 999999999;height: 100%;width: 100%;color: transparent;background: rgba(0, 0, 0, 0.6);visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
+const iframeStyle = "position: fixed;display: none;overflow: hidden;z-index: 999999999;width: 100%;height: 100%;transition: opacity 0.3s ease 0s;visibility:hidden;margin: 0;top:0;right:0;bottom:0;left:0;";
 const loaderStyles = `.app-loader {
   text-align: center;
   color: white;
+  margin-right: -30px;
+  width: 100%;
+  position: fixed;
 }
 
 @-webkit-keyframes app-loader__spinner {
@@ -105,6 +129,7 @@ const loaderStyles = `.app-loader {
 .app-loader__spinner {
   position: relative;
   display: inline-block;
+  width: fit-content;
 }
 
 .app-loader__spinner div {
@@ -204,8 +229,6 @@ const loaderStyles = `.app-loader {
 }
 
 .app-loader__spinner {
-  width: 40px;
-  height: 40px;
   -webkit-transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
   transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
 }

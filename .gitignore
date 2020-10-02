@@ -1,3 +1,7 @@
 index.html
 index.js
 node_modules
+.firebaserc
+firebase.json
+/.firebase
+*.log
