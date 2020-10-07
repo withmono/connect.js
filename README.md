@@ -1,6 +1,9 @@
 # @mono.co/connect.js
 Repository for connect.js, Mono connect widget script.
 
+Request access here:
+https://app.withmono.com/register
+
 ## Installation
 
 ```bash
