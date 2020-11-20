@@ -2,7 +2,7 @@
 
 var utils = () => {
   
-  function init(key, onload) {
+  function init(config) {
     // check if container and iframe is already rendered on the DOM
     if(
       document.getElementById('mono-connect--widget-div')
@@ -11,19 +11,26 @@ var utils = () => {
       return;
     }
 
+    const { key, onload, qs } = config;
+    var source = new URL('https://connect.withmono.com');
+    source.searchParams.set('key', key);
+    Object.keys(qs).map(k => {
+      source.searchParams.set(k, qs[k]);
+    })
+
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
     container.setAttribute("style", containerStyle);
     document.body.insertBefore(container, document.body.childNodes[0]);
 
     var iframe = document.createElement("IFRAME");
-    iframe.setAttribute("src", `https://connect.withmono.com/?key=${key}`);
+    iframe.setAttribute("src", `${source.href}`);
     iframe.setAttribute("style", iframeStyle);
     iframe.setAttribute("id", "mono-connect--frame-id")
     iframe.setAttribute("allowfullscreen", "true");
     iframe.setAttribute("frameborder", 0);
     iframe.setAttribute("title", "Mono connect")
-    iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation");
+    iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-popups");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
       if(iframe.style.visibility === "visible") {
