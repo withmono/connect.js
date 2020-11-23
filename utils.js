@@ -14,6 +14,7 @@ var utils = () => {
     const { key, onload, qs } = config;
     var source = new URL('https://connect.withmono.com');
     source.searchParams.set('key', key);
+    source.searchParams.set('referrer', window.location.href);
     Object.keys(qs).map(k => {
       source.searchParams.set(k, qs[k]);
     })
