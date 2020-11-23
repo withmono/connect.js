@@ -2,43 +2,64 @@
 
 var utils = require("./utils");
 const anonFunc = () => {};
+const isRequired = (name) => { throw new Error(`${name} is required`); };
 
 /**
  * This function creates a connect object and returns it's properties
  * @param {*} key public key gotten from Mono dashboard - REQUIRED
  * @param {*} options optional params functions the be invoked on success, on load and on close
  */
-function connect(key, {
+function connect({
+  key,
   onClose = anonFunc, 
-  onSuccess = anonFunc, 
-  onLoad = anonFunc
+  onSuccess, 
+  onLoad = anonFunc,
+  ...rest
 }) {
-  if(!(this instanceof connect)) return new connect(key, {onClose, onSuccess});
+  if(typeof arguments[0] !== "object"){
+    //DEPRECATION warning
+    console.warn(`DEPRECATED: MONO CONNECT EXPECTED 1 ARGUMENT, BUT GOT ${arguments.length}`);
 
-  if (!key) throw new Error('YOUR MONO PUBLIC KEY IS REQUIRED');
+    key = arguments[0] || isRequired("PUBLIC_KEY");
+    onClose = arguments[1].onClose || anonFunc;
+    onSuccess = arguments[1].onSuccess || isRequired("onSuccess callback");
+    onLoad = arguments[1].onLoad || anonFunc;
+    rest = {};
+  }
 
-  this.key = key;
+  if(!(this instanceof connect)) return new connect({key, onClose, onSuccess, onLoad, ...rest});
+
+  this.key = key || isRequired("PUBLIC_KEY");
+  this.config = {...rest};
   connect.prototype.onLoad = onLoad;
   connect.prototype.onClose = onClose;
-  connect.prototype.onSuccess = onSuccess;
+  connect.prototype.onSuccess = onSuccess || isRequired("onSuccess callback");
   connect.prototype.utils = utils();
 }
 
 /**this is the entry function to setup the connect widget */
 connect.prototype.setup = function () {
   connect.prototype.utils.addStyle();
-  connect.prototype.utils.init(this.key, this.onLoad);
 
-  window.addEventListener("message", (event) => {
+  connect.prototype.utils.init({
+    key: this.key, 
+    qs: this.config,
+    onload: this.onLoad
+  });
+
+  this.eventHandler = (event) => {
     switch(event.data.type) {
-      case "mono.modal.closed":
+      case "mono.connect.widget.account_linked":
+        this.onSuccess({...event.data.data});
+        connect.prototype.close(); // close widget on success
+        break;
+      case "mono.connect.widget.closed":
         connect.prototype.close();
         break;
-      case "mono.modal.linked":
-        this.onSuccess({...event.data.response});
-        break;
     }
-  })
+  }
+
+  window.addEventListener("message", this.eventHandler, false);
 }
 
 /**connect object property to open widget/modal */
@@ -48,7 +69,7 @@ connect.prototype.open = function () {
 
 /**connect object property to hide modal and clean up to avoid leak */
 connect.prototype.close = function () {
-  window.removeEventListener("message", () => {});
+  window.removeEventListener("message", this.eventHandler, false);
   connect.prototype.utils.closeWidget();
   this.onClose();
 }

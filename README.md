@@ -14,16 +14,18 @@ npm install @mono.co/connect.js
 ```
 
 ## Usage
+
 ```js
 import React from 'react';
 import MonoConnect from '@mono.co/connect.js';
 
 export default function App() {
   const monoConnect = React.useMemo(() => {
-    const monoInstance = new MonoConnect("PUBLIC_KEY", {
+    const monoInstance = new MonoConnect({
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
-      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`)
+      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`),
+      key: "PUBLIC_KEY",
     })
 
     monoInstance.setup()
@@ -40,6 +42,8 @@ export default function App() {
   )
 }
 ```
+> 🔔 DEPRECATION NOTICE  
+> The old Mono connect constructor which takes two arguments; i.e the public key and an object of callbacks has now been deprecated. 
 
 ## Parameters
 To create an instance of the connect object, you can pass the following parameters:
@@ -47,7 +51,9 @@ To create an instance of the connect object, you can pass the following paramete
 | Param              | Required    | Type        |
 | ------------------ | ----------- | ----------- |
 | key                | true        | string      |
-| options: ```onClose: () => void```, ```onLoad: () => void```, ```onSuccess: ({ code }) => void```           | false       | object      |
+| onClose            | false       | () => void      |
+| onSuccess          | true       | ({ code }) => void      |
+| onLoad           | false       | () => void      |
 
 ## Connect object properties
 The connect object returns some properties for you to be able interact with the widget:
