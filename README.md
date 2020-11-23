@@ -12,8 +12,8 @@ npm install @mono.co/connect.js
 ```
 
 ## Usage
-> 🔔 DEPRECIATION NOTICE  
-> The old Mono connect constructor which takes two arguments; the public key and an object of callbacks is now been deprecated. 
+> 🔔 DEPRECATION NOTICE  
+> The old Mono connect constructor which takes two arguments; i.e the public key and an object of callbacks has now been deprecated. 
 
 ```js
 import React from 'react';
