@@ -51,8 +51,8 @@ connect.prototype.setup = function () {
 /**connect object property to open widget/modal */
 connect.prototype.open = function () {
   connect.prototype.utils.openWidget();
-  
-  this.eventHandler = (event) => {
+
+  function handleEvents(event){
     switch(event.data.type) {
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
@@ -64,6 +64,7 @@ connect.prototype.open = function () {
     }
   }
 
+  connect.prototype.eventHandler = handleEvents.bind(this);
   window.addEventListener("message", this.eventHandler, false);
 }
 
