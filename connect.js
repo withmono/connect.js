@@ -46,8 +46,13 @@ connect.prototype.setup = function () {
     qs: this.config,
     onload: this.onLoad
   });
+}
 
-  this.eventHandler = (event) => {
+/**connect object property to open widget/modal */
+connect.prototype.open = function () {
+  connect.prototype.utils.openWidget();
+
+  function handleEvents(event){
     switch(event.data.type) {
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
@@ -59,12 +64,8 @@ connect.prototype.setup = function () {
     }
   }
 
+  connect.prototype.eventHandler = handleEvents.bind(this);
   window.addEventListener("message", this.eventHandler, false);
-}
-
-/**connect object property to open widget/modal */
-connect.prototype.open = function () {
-  connect.prototype.utils.openWidget();
 }
 
 /**connect object property to hide modal and clean up to avoid leak */
