@@ -46,7 +46,12 @@ connect.prototype.setup = function () {
     qs: this.config,
     onload: this.onLoad
   });
+}
 
+/**connect object property to open widget/modal */
+connect.prototype.open = function () {
+  connect.prototype.utils.openWidget();
+  
   this.eventHandler = (event) => {
     switch(event.data.type) {
       case "mono.connect.widget.account_linked":
@@ -60,11 +65,6 @@ connect.prototype.setup = function () {
   }
 
   window.addEventListener("message", this.eventHandler, false);
-}
-
-/**connect object property to open widget/modal */
-connect.prototype.open = function () {
-  connect.prototype.utils.openWidget();
 }
 
 /**connect object property to hide modal and clean up to avoid leak */
