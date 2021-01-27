@@ -1,6 +1,8 @@
 # @mono.co/connect.js
 Repository for connect.js, Mono connect widget script.
 
+Request access [here](https://app.withmono.com/register) to get your API keys
+
 ## Installation
 
 ```bash
@@ -94,3 +96,4 @@ The connect object returns some properties for you to be able interact with the 
 | ```close()```   | Hides the widget       |
 | ```open()```    | Makes the widget visible        |
 | ```reauthorise(re_auth_token: stirng)```    | Allows reathentication of user, a reauth token is required       |
+
