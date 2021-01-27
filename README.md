@@ -43,7 +43,13 @@ export default function App() {
 }
 ```
 
-Reauthorisation, you can reauthorise user acount if required. Using the `reauthorise()` function. See example below.
+### Reauthorisation 
+
+You can reauthorise a user acount if required. Using the `reauthorise()` function. 
+
+- Note, the `reauthorise()` function should be used in place of the `setup()` function. The two should not be used at the same time.
+
+See example below;
 ```js
 import React from 'react';
 import MonoConnect from '@mono.co/connect.js';
