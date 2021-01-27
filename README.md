@@ -43,12 +43,14 @@ export default function App() {
 }
 ```
 
-Reauthorisation, you can reauthorise user acount if reauired. Using the `reauthorise()` function. See example below.
+Reauthorisation, you can reauthorise user acount if required. Using the `reauthorise()` function. See example below.
 ```js
 import React from 'react';
 import MonoConnect from '@mono.co/connect.js';
 
 export default function App() {
+  const reauth_token = "code_xyzUi8olavk";
+
   const monoConnect = React.useMemo(() => {
     const monoInstance = new MonoConnect({
       onClose: () => console.log('Widget closed'),
@@ -57,16 +59,14 @@ export default function App() {
       key: "PUBLIC_KEY",
     })
 
-    monoInstance.setup()
+    monoInstance.reauthorise(reauth_token)
     
     return monoInstance;
   }, [])
 
-  const reauth_token = "code_xyzUi8olavk";
-
   return (
     <div>
-      <button onClick={() => monoConnect.reauthorise(reauth_token)}>
+      <button onClick={() => monoConnect.open()}>
         Reauthorise user account
       </button>
     </div>
@@ -95,5 +95,5 @@ The connect object returns some properties for you to be able interact with the 
 | ```setup()```   | Adds the widget iframe to the DOM       |
 | ```close()```   | Hides the widget       |
 | ```open()```    | Makes the widget visible        |
-| ```reauthorise(re_auth_token: stirng)```    | Allows reathentication of user, a reauth token is required       |
+| ```reauthorise(re_auth_token: string)```    | Allows reathentication of user, a reauth token is required. Call this function in place of setup() when you want to reauthorise.       |
 
