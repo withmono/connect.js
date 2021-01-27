@@ -48,6 +48,19 @@ connect.prototype.setup = function () {
   });
 }
 
+connect.prototype.reauthorise = function (reauth_token) {
+  if(!reauth_token) {
+    throw new Error("Re-auth token is required for reauthorisation");
+  }
+
+  connect.prototype.utils.addStyle();
+  connect.prototype.utils.init({
+    key: this.key, 
+    qs: {...this.config, reauth_token},
+    onload: this.onLoad,
+  });
+}
+
 /**connect object property to open widget/modal */
 connect.prototype.open = function () {
   connect.prototype.utils.openWidget();
@@ -75,6 +88,6 @@ connect.prototype.close = function () {
   this.onClose();
 }
 
-window.connect = connect; // make connect available globally
+window.Connect = connect; // make connect available globally
 
 module.exports = connect;
