@@ -12,10 +12,15 @@ var utils = () => {
     }
 
     const { key, onload, qs } = config;
+    const encodedKeys = ["data"];
     var source = new URL('https://connect.withmono.com');
     source.searchParams.set('key', key);
     source.searchParams.set('referrer', window.location.href);
     Object.keys(qs).map(k => {
+      if(encodedKeys.includes(k)) {
+        const encodedVal = encodeURIComponent(JSON.stringify(qs[k]));
+        return source.searchParams.set(k, encodedVal);
+      } 
       source.searchParams.set(k, qs[k]);
     })
 

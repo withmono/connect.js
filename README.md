@@ -25,7 +25,7 @@ export default function App() {
       onClose: () => console.log('Widget closed'),
       onLoad: () => console.log('Widget loaded successfully'),
       onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`),
-      key: "PUBLIC_KEY",
+      key: "PUBLIC_KEY"
     })
 
     monoInstance.setup()
@@ -101,5 +101,5 @@ The connect object returns some properties for you to be able interact with the 
 | ```setup()```   | Adds the widget iframe to the DOM       |
 | ```close()```   | Hides the widget       |
 | ```open()```    | Makes the widget visible        |
-| ```reauthorise(re_auth_token: string)```    | Allows reathentication of user, a reauth token is required. Call this function in place of setup() when you want to reauthorise.       |
+| ```reauthorise(token: string)```    | Allows reathentication of user, a reauth token is required. Call this function in place of setup() when you want to reauthorise.       |
 
