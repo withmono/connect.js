@@ -8,7 +8,7 @@ var utils = () => {
       document.getElementById('mono-connect--widget-div')
       && document.getElementById("mono-connect--frame-id")
     ) {
-      return;
+      document.getElementById('mono-connect--widget-div').remove();
     }
 
     const { key, onload, qs } = config;
