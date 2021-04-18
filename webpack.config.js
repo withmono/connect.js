@@ -15,6 +15,7 @@ module.exports = {
     path: path.resolve(__dirname),
     library: '@mono.co/connect.js',
     libraryTarget: 'umd',
+    globalObject: 'this'
   },
 
 	optimization: {
