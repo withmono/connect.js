@@ -90,6 +90,5 @@ connect.prototype.close = function () {
 
 if(typeof window !== "undefined") {
   window.Connect = connect; // make connect available globally
+  module.exports = connect;
 }
-
-module.exports = connect;
