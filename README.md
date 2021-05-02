@@ -36,13 +36,17 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [`onClose`](README.md#onclose)
 - [`onLoad`](README.md#onload)
 
-### `key` (required)
+### `key` 
+[required]  
 This is your Mono public API key gotten from the Mono [dashboard](https://app.withmono.com)
 ```js
   new Connect({ key: "test_pk_fb8PP3jYA0" });
 ```
 
-### `onSuccess` (required)
+### `onSuccess`      
+[required]
+
+
 This is a callback function invoked when authentication or payment is successful.
 ```js
   new Connect({ 
@@ -58,7 +62,7 @@ This is a callback function invoked when authentication or payment is successful
 ```
 Auth code returned after successful authentication is exchanged for customer account ID like explained in the [docs](https://docs.mono.co/reference/authentication-endpoint)
 
-#### `onClose`
+### `onClose`
 This function is invoked when the widget is closed i.e not visible to the user.
 ```js
   new Connect({ 
