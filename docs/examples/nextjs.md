@@ -8,6 +8,7 @@ export default function IndexPage() {
 
   const openMonoWidget = useCallback(async () => {
     const MonoConnect = (await import("@mono.co/connect.js")).default;
+    
     const monoInstance = new MonoConnect({
       key: "PUBLIC_KEY",
       onClose: () => console.log("Widget closed"),
@@ -48,6 +49,7 @@ export default function IndexPage() {
 
   const reauthenticate = useCallback(async () => {
     const MonoConnect = (await import("@mono.co/connect.js")).default;
+
     const monoInstance = new MonoConnect({
       key: "PUBLIC_KEY",
       onClose: () => console.log("Widget closed"),
@@ -82,6 +84,7 @@ export default function IndexPage() {
 
   const payWithMono = useCallback(async () => {
     const MonoConnect = (await import("@mono.co/connect.js")).default;
+    
     const monoInstance = new MonoConnect({
       key: "PUBLIC_KEY",
       scope: "payments",

@@ -32,17 +32,17 @@ Click the links below for detailed examples on how to use connect.js with your f
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
 ## Parameters
 - [`key`](README.md#key)
-- [`onSuccess`](README.md#onsuccess)
+- [`onSuccess`](README.md#onSuccess)
 - [`onClose`](README.md#onclose)
 - [`onLoad`](README.md#onload)
 
-#### `key` (required)
+### `key` (required)
 This is your Mono public API key gotten from the Mono [dashboard](https://app.withmono.com)
 ```js
   new Connect({ key: "test_pk_fb8PP3jYA0" });
 ```
 
-#### `onSuccess` (required)
+### `onSuccess` (required)
 This is a callback function invoked when authentication or payment is successful.
 ```js
   new Connect({ 
@@ -68,7 +68,7 @@ This function is invoked when the widget is closed i.e not visible to the user.
   });
 ```
 
-#### `onLoad`
+### `onLoad`
 This function is invoked the widget has been mounted unto the DOM. You can handle toggling your trigger button within this callback. 
 ```js
   new Connect({ 
@@ -80,7 +80,7 @@ This function is invoked the widget has been mounted unto the DOM. You can handl
 
 ## API Reference
 
-#### `setup()`
+### `setup()`
 This method is used to loads the widget unto the DOM, the widget remains hidden until opened.
 ```js
   const connect = new Connect({
@@ -90,7 +90,7 @@ This method is used to loads the widget unto the DOM, the widget remains hidden 
   connect.setup();
 ```
 
-#### `reauthorise(reauth_code: string)`
+### `reauthorise(reauth_code: string)`
 This methods loads the reauth widget unto the DOM, the widget remains hidden until opened.   
 Reauthorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution or it has been setup by the user for security purposes before more data can be fetched from the account.
 
@@ -111,7 +111,7 @@ Check Mono [docs](https://docs.mono.co/reference/intro#reauth-code) on how to ob
 > NOTE  
 > the `reauthorise` method and `setup` method should be used separately. When used together, the last called method takes precedence.
 
-#### `open()`
+### `open()`
 This method makes the widget visible to the user.
 ```js
   const connect = new Connect({
@@ -123,7 +123,7 @@ This method makes the widget visible to the user.
   connect.open();
 ```
 
-#### `close()`
+### `close()`
 This method programatically hides the widget after it's been opened.
 ```js
   const connect = new Connect({
