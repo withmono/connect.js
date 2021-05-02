@@ -31,20 +31,20 @@ Click the links below for detailed examples on how to use connect.js with your f
 > NOTE  
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
 ## Parameters
-- [`key`](README.md#key(required))
-- [`onSuccess`](README.md#onsuccess(required))
+- [`key`](README.md#key)
+- [`onSuccess`](README.md#onsuccess)
 - [`onClose`](README.md#onclose)
 - [`onLoad`](README.md#onload)
 
 ### `key` 
-[required]  
+**Required**  
 This is your Mono public API key gotten from the Mono [dashboard](https://app.withmono.com)
 ```js
   new Connect({ key: "test_pk_fb8PP3jYA0" });
 ```
 
 ### `onSuccess`      
-[required]
+**Required**
 
 
 This is a callback function invoked when authentication or payment is successful.
