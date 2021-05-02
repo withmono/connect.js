@@ -1,105 +1,145 @@
+
 # @mono.co/connect.js
-Repository for connect.js, Mono connect widget script.
 
-Request access [here](https://app.withmono.com/register) to get your API keys
+connect.js is a javascript package that allows you to load the Mono connect widget in your app. It works across all major javascript frameworks.
 
-## Installation
 
-```bash
-yarn add @mono.co/connect.js
+## Getting started 
+
+Before you begin, grab you API keys from Mono dashboard. You are required to have an account with Mono.
+
+Request for you API keys [here](https://app.withmono.com/register)
+
+### Installation
+
+You can install the package using NPM or Yarn;
+
+```bash 
+  npm install @mono.co/connect.js
 ```
 or
-```bash
-npm install @mono.co/connect.js
+```bash 
+  yarn add @mono.co/connect.js
 ```
-
+    
 ## Usage
+Click the links below for detailed examples on how to use connect.js with your favourite framework;
+- [React](docs/examples/react.md)
+- [Angular](docs/examples/angular.md)
+- [Next.js](docs/examples/nextjs.md)
 
-```js
-import React from 'react';
-import MonoConnect from '@mono.co/connect.js';
-
-export default function App() {
-  const monoConnect = React.useMemo(() => {
-    const monoInstance = new MonoConnect({
-      onClose: () => console.log('Widget closed'),
-      onLoad: () => console.log('Widget loaded successfully'),
-      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`),
-      key: "PUBLIC_KEY"
-    })
-
-    monoInstance.setup()
-    
-    return monoInstance;
-  }, [])
-
-  return (
-    <div>
-      <button onClick={() => monoConnect.open()}>
-        Authenticate with Mono
-      </button>
-    </div>
-  )
-}
-```
-
-### Reauthorisation 
-
-You can reauthorise a user acount if required. Using the `reauthorise()` function. 
-
-- Note, the `reauthorise()` function should be used in place of the `setup()` function. The two should not be used at the same time.
-
-See example below;
-```js
-import React from 'react';
-import MonoConnect from '@mono.co/connect.js';
-
-export default function App() {
-  const reauth_token = "code_xyzUi8olavk";
-
-  const monoConnect = React.useMemo(() => {
-    const monoInstance = new MonoConnect({
-      onClose: () => console.log('Widget closed'),
-      onLoad: () => console.log('Widget loaded successfully'),
-      onSuccess: ({ code }) => console.log(`Linked successfully: ${code}`),
-      key: "PUBLIC_KEY",
-    })
-
-    monoInstance.reauthorise(reauth_token)
-    
-    return monoInstance;
-  }, [])
-
-  return (
-    <div>
-      <button onClick={() => monoConnect.open()}>
-        Reauthorise user account
-      </button>
-    </div>
-  )
-}
-```
-
-> 🔔 DEPRECATION NOTICE  
-> The old Mono connect constructor which takes two arguments; i.e the public key and an object of callbacks has now been deprecated. 
-
+> NOTE  
+> The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
 ## Parameters
-To create an instance of the connect object, you can pass the following parameters:
+- [`key`](README.md#key)
+- [`onSuccess`](README.md#onsuccess)
+- [`onClose`](README.md#onclose)
+- [`onLoad`](README.md#onload)
 
-| Param              | Required    | Type        |
-| ------------------ | ----------- | ----------- |
-| key                | true        | string      |
-| onClose            | false       | () => void      |
-| onSuccess          | true       | ({ code }) => void      |
-| onLoad           | false       | () => void      |
+### `key` 
+**Required**  
+This is your Mono public API key gotten from the Mono [dashboard](https://app.withmono.com)
+```js
+  new Connect({ key: "test_pk_fb8PP3jYA0" });
+```
 
-## Connect object properties
-The connect object returns some properties for you to be able interact with the widget:
+### `onSuccess`      
+**Required**
 
-| Function        | Description |
-| --------------- | ----------- |
-| ```setup()```   | Adds the widget iframe to the DOM       |
-| ```close()```   | Hides the widget       |
-| ```open()```    | Makes the widget visible        |
-| ```reauthorise(token: string)```    | Allows reathentication of user, a reauth token is required. Call this function in place of setup() when you want to reauthorise.       |
 
+This is a callback function invoked when authentication or payment is successful.
+```js
+  new Connect({ 
+    key: "test_pk_fb8PP3jYA0",
+    onSuccess: (data) => {
+      // in the case of authentication auth code is returned
+      console.log("auth code", data.code);
+      // in the case of direct debit payments
+      // a charge object is return containing amount, transaction_reference, type...
+      console.log("charge object", data);
+    } 
+  });
+```
+Auth code returned after successful authentication is exchanged for customer account ID like explained in the [docs](https://docs.mono.co/reference/authentication-endpoint)
+
+### `onClose`
+This function is invoked when the widget is closed i.e not visible to the user.
+```js
+  new Connect({ 
+    key: "test_pk_fb8PP3jYA0",
+    onSuccess: ({code}) => console.log("auth code", code),
+    onClose: () => console.log("widget has been closed")
+  });
+```
+
+### `onLoad`
+This function is invoked the widget has been mounted unto the DOM. You can handle toggling your trigger button within this callback. 
+```js
+  new Connect({ 
+    key: "test_pk_fb8PP3jYA0",
+    onSuccess: ({code}) => console.log("auth code", code),
+    onLoad: () => console.log("widget loaded successfully")
+  });
+```
+
+## API Reference
+
+### `setup()`
+This method is used to load the widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.
+```js
+  const connect = new Connect({
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("code", code),
+  });
+  connect.setup();
+```
+
+### `reauthorise(reauth_code: string)`
+This methods loads the reauth widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.   
+
+Reauthorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution or it has been setup by the user for security purposes before more data can be fetched from the account.
+
+Check Mono [docs](https://docs.mono.co/reference/intro#reauth-code) on how to obtain `reauth_code` of an account.
+
+```js
+  const connect = new Connect({
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("code", code),
+  });
+  connect.reauthorise("auth_fb8PP3jYA0");
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `reauth_code`      | `string` | **Required**. Reauth code of the account to be reauthorised |
+
+> NOTE  
+> the `reauthorise` method and `setup` method should be used separately. When used together, the last called method takes precedence.
+
+### `open()`
+This method makes the widget visible to the user.
+```js
+  const connect = new Connect({
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("code", code),
+  });
+  
+  connect.setup();
+  connect.open();
+```
+
+### `close()`
+This method programatically hides the widget after it's been opened.
+```js
+  const connect = new Connect({
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("code", code),
+  });
+  
+  connect.setup();
+  connect.open();
+  // this closes the widget 5seconds after it has been opened
+  setTimeout(() => connect.close(), 5000)
+```
+
+If you find any issue using this package please let us know by filing an issue right [here](https://github.com/withmono/connect.js/issues)
