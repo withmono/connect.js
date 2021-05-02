@@ -85,7 +85,7 @@ This function is invoked the widget has been mounted unto the DOM. You can handl
 ## API Reference
 
 ### `setup()`
-This method is used to loads the widget unto the DOM, the widget remains hidden until opened.
+This method is used to load the widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.
 ```js
   const connect = new Connect({
     key: 'mono_public_key',
@@ -95,7 +95,8 @@ This method is used to loads the widget unto the DOM, the widget remains hidden 
 ```
 
 ### `reauthorise(reauth_code: string)`
-This methods loads the reauth widget unto the DOM, the widget remains hidden until opened.   
+This methods loads the reauth widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.   
+
 Reauthorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution or it has been setup by the user for security purposes before more data can be fetched from the account.
 
 Check Mono [docs](https://docs.mono.co/reference/intro#reauth-code) on how to obtain `reauth_code` of an account.
