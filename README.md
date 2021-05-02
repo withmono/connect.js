@@ -31,8 +31,8 @@ Click the links below for detailed examples on how to use connect.js with your f
 > NOTE  
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
 ## Parameters
-- [`key`](README.md#key)
-- [`onSuccess`](README.md#onSuccess)
+- [`key`](README.md#key(required))
+- [`onSuccess`](README.md#onsuccess(required))
 - [`onClose`](README.md#onclose)
 - [`onLoad`](README.md#onload)
 
