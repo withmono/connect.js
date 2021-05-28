@@ -1,7 +1,7 @@
 "use strict";
 
 var utils = () => {
-  
+
   function init(config) {
     // check if container and iframe is already rendered on the DOM
     if(
@@ -11,7 +11,7 @@ var utils = () => {
       document.getElementById('mono-connect--widget-div').remove();
     }
 
-    const { key, onload, qs } = config;
+    const { key, onload, qs, onevent } = config;
     const encodedKeys = ["data"];
     var source = new URL('https://connect.withmono.com');
     source.searchParams.set('key', key);
@@ -20,7 +20,7 @@ var utils = () => {
       if(encodedKeys.includes(k)) {
         const encodedVal = encodeURIComponent(JSON.stringify(qs[k]));
         return source.searchParams.set(k, encodedVal);
-      } 
+      }
       source.searchParams.set(k, qs[k]);
     })
 
@@ -43,6 +43,7 @@ var utils = () => {
         loader.style.display = "none";
       }
       onload()
+      onevent('LOADED', metadata({}))
     }
 
     var loader = createLoader();
@@ -67,8 +68,8 @@ var utils = () => {
     container.style.visibility = "hidden";
     frame.style.visibility = "hidden";
   }
-  
-  function openWidget() {
+
+  function openWidget(onEvent) {
     var container = document.getElementById("mono-connect--widget-div");
     var loader = document.getElementById("mono-connect-app-loader");
     var frame = document.getElementById("mono-connect--frame-id");
@@ -76,8 +77,10 @@ var utils = () => {
     container.style.display = "flex";
     loader.style.display = "block";
 
-    setTimeout(() => { 
-      turnOnVisibility(); 
+    onEvent('OPENED', metadata({}))
+
+    setTimeout(() => {
+      turnOnVisibility();
       frame.focus({preventScroll: false})
       container.focus({preventScroll: false})
     }, 2000);
@@ -109,7 +112,35 @@ var utils = () => {
     document.head.appendChild(styleSheet);
   }
 
+  function metadata(data){
+    data = data || {};
+
+    if(!data.error_code){
+      data['error_code'] = null;
+    }
+    if(!data. error_message){
+      data[' error_message'] = null;
+    }
+    if(!data.code){
+      data['code'] = null;
+    }
+    if(!data. timestamp){
+      data[' timestamp'] = Date.now();
+    }
+
+    var sorted = Object.keys(data)
+    .sort()
+    .reduce(function (acc, key) {
+        acc[key] = data[key];
+        return acc;
+    }, {});
+
+    return sorted;
+
+  }
+
   return {
+    metadata: metadata,
     openWidget: openWidget,
     closeWidget: closeWidget,
     createLoader: createLoader,
