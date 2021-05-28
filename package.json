@@ -1,7 +1,7 @@
 {
   "name": "@mono.co/connect.js",
-  "version": "0.1.9",
-  "description": "Mono connect script",
+  "version": "0.2.0",
+  "description": "Mono Connect Library",
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack -p --config ./webpack.config.js"
@@ -18,8 +18,8 @@
     "connect",
     "widget"
   ],
-  "author": "Mono devs",
-  "license": "ISC",
+  "author": "Mono (https://mono.co/)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/withmono/connect.js/issues"
   },

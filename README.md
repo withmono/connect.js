@@ -40,7 +40,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 **Required**  
 This is your Mono public API key gotten from the Mono [dashboard](https://app.withmono.com)
 ```js
-  new Connect({ key: "test_pk_fb8PP3jYA0" });
+  new Connect({ key: 'mono_public_key' });
 ```
 
 ### `onSuccess`      
@@ -50,7 +50,7 @@ This is your Mono public API key gotten from the Mono [dashboard](https://app.wi
 This is a callback function invoked when authentication or payment is successful.
 ```js
   new Connect({ 
-    key: "test_pk_fb8PP3jYA0",
+    key: 'mono_public_key',
     onSuccess: (data) => {
       // in the case of authentication auth code is returned
       console.log("auth code", data.code);
@@ -66,7 +66,7 @@ Auth code returned after successful authentication is exchanged for customer acc
 This function is invoked when the widget is closed i.e not visible to the user.
 ```js
   new Connect({ 
-    key: "test_pk_fb8PP3jYA0",
+    key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onClose: () => console.log("widget has been closed")
   });
@@ -76,9 +76,19 @@ This function is invoked when the widget is closed i.e not visible to the user.
 This function is invoked the widget has been mounted unto the DOM. You can handle toggling your trigger button within this callback. 
 ```js
   new Connect({ 
-    key: "test_pk_fb8PP3jYA0",
+    key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onLoad: () => console.log("widget loaded successfully")
+  });
+```
+
+### `onEvent`
+This function is invoked when the widget state changes. You can handle toggling your trigger button within this callback. 
+```js
+  new Connect({ 
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("auth code", code),
+    onEvent: (eventName, metadata) => { console.log(eventName); console.log(metadata) }
   });
 ```
 
