@@ -26,7 +26,6 @@ function connect({
     onSuccess = arguments[1].onSuccess || isRequired("onSuccess callback");
     onLoad = arguments[1].onLoad || anonFunc;
     rest = {};
-    onEvent = arguments[1].onEvent || anonFunc;
   }
 
   if(!(this instanceof connect)) return new connect({key, onClose, onSuccess, onLoad, onEvent, ...rest});
@@ -69,18 +68,48 @@ connect.prototype.reauthorise = function (reauth_token) {
 
 /**connect object property to open widget/modal */
 connect.prototype.open = function () {
-  connect.prototype.utils.openWidget(this.onEvent);
+  connect.prototype.utils.openWidget();
 
   function handleEvents(event){
 
     switch(event.data.type) {
+      /* Old callbacks */
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
-        this.onEvent('SUCCESS', connect.prototype.utils.metadata({code: event.data.data.code}));
+        this.onEvent('SUCCESS', event.data.data);
         connect.prototype.close(); // close widget on success
         break;
       case "mono.connect.widget.closed":
         connect.prototype.close();
+        break;
+      /* New onEvent callbacks */
+      /* LOADED event is not triggered here, look in utils.js */
+      case "mono.connect.widget_opened":
+        this.onEvent('OPENED', event.data.data);
+        break;
+      case "mono.connect.error_occured":
+        this.onEvent('ERROR', event.data.data);
+        break;
+      case "mono.connect.institution_selected":
+        this.onEvent('INSTITUTION_SELECTED', event.data.data);
+        break;
+      case "mono.connect.auth_method_switched":
+        this.onEvent('AUTH_METHOD_SWITCHED', event.data.data);
+        break;
+      case "mono.connect.on_exit":
+        this.onEvent('EXIT', event.data.data);
+        break;
+      case "mono.connect.login_attempt":
+        this.onEvent('SUBMIT_CREDENTIALS', event.data.data);
+        break;
+      case "mono.connect.mfa_submitted":
+        this.onEvent('SUBMIT_MFA', event.data.data);
+        break;
+      case "mono.connect.account_linked":
+        this.onEvent('ACCOUNT_LINKED', event.data.data);
+        break;
+      case "mono.connect.account_selected":
+        this.onEvent('ACCOUNT_SELECTED', event.data.data);
         break;
     }
   }
@@ -94,7 +123,6 @@ connect.prototype.close = function () {
   window.removeEventListener("message", this.eventHandler, false);
   connect.prototype.utils.closeWidget();
   this.onClose();
-  this.onEvent('CLOSED', connect.prototype.utils.metadata({}));
 }
 
 if(typeof window !== "undefined") {
