@@ -23,7 +23,7 @@ var utils = () => {
         return source.searchParams.set(k, encodedVal);
       }
       source.searchParams.set(k, qs[k]);
-    })
+    });
 
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
@@ -47,16 +47,17 @@ var utils = () => {
 
       // dispatch LOADED event
       let event = new Event("message");
-      event["data"] = {};
-      event["data"]["type"] = "mono.connect.widget_loaded";
-      event["data"]["data"] = {};
-      event["data"]["data"]["timestamp"] = Date.now();
+      let eventData = {
+        type: 'mono.connect.widget_loaded',
+        data: { timestamp: Date.now() }
+      };
 
+      event['data'] = Object.assign({}, eventData);
       window.dispatchEvent(event);
 
-      // manually trigger LOADED since connect does not listen for events until the widget is opened
+      // manually trigger LOADED since 
+      // connect does not listen for events until the widget is opened
       onevent('LOADED', event.data.data);
-
     }
 
     var loader = createLoader();
@@ -97,12 +98,13 @@ var utils = () => {
 
       // dispatch OPENED event
       let event = new Event("message");
-      event["data"] = {};
-      event["data"]["type"] = "mono.connect.widget_opened";
-      event["data"]["data"] = {};
-      event["data"]["data"]["timestamp"] = Date.now();
-      window.dispatchEvent(event);
+      let eventData = {
+        type: 'mono.connect.widget_opened',
+        data: { timestamp: Date.now() }
+      };
 
+      event["data"] = Object.assign({}, eventData);
+      window.dispatchEvent(event);
     }, 2000);
   }
 
@@ -126,25 +128,13 @@ var utils = () => {
   }
 
   function addStyle() {
-    var styleSheet = document.createElement("style");
+    let styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
     styleSheet.innerText = loaderStyles;
     document.head.appendChild(styleSheet);
   }
 
-  function metadata(data){
-    data = data || {};
-
-    if(!data. timestamp){
-      data[" timestamp"] = Date.now();
-    }
-
-    return sorted;
-
-  }
-
   return {
-    metadata: metadata,
     openWidget: openWidget,
     closeWidget: closeWidget,
     createLoader: createLoader,
