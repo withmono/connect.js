@@ -42,6 +42,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [`onClose`](#onClose)
 - [`onLoad`](#onLoad)
 - [`onEvent`](#onEvent)
+- [`reference`](#reference)
 
 ### <a name="key"></a> `key`
 **Required**  
@@ -96,6 +97,18 @@ See the [data](#dataObject) object below for details.
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onEvent: (eventName, metadata) => { console.log(eventName); console.log(metadata) }
+  });
+```
+
+### <a name="reference"></a> `reference`
+This optional string is used as a reference to the current instance of Mono Connect. It will be passed to the data object in all onEvent callbacks. It's recommended to pass a random string.
+
+
+```js
+  new Connect({
+    key: 'mono_public_key',
+    onSuccess: ({code}) => console.log("auth code", code),
+    reference: "some_random_string"
   });
 ```
 
