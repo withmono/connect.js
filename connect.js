@@ -28,7 +28,14 @@ function connect({
     rest = {};
   }
 
-  if(!(this instanceof connect)) return new connect({key, onClose, onSuccess, onLoad, onEvent, ...rest});
+  if(!(this instanceof connect)) return new connect({
+    key, 
+    onClose, 
+    onSuccess, 
+    onLoad, 
+    onEvent, 
+    ...rest
+  });
 
   this.key = key || isRequired("PUBLIC_KEY");
   this.config = {...rest};
@@ -125,8 +132,10 @@ connect.prototype.close = function () {
   this.onClose();
 }
 
+// Do not attach connect to window when imported server side. 
+// This makes the module safe to import in an isomorphic code base.
 if(typeof window !== "undefined") {
-  window.Connect = connect; // make connect available globally
+  window.Connect = connect;
 }
 
 module.exports = connect;
