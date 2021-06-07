@@ -182,16 +182,16 @@ const connect = new Connect({
 
 Event names corespond to the `type` key returned by the raw event data. Possible options are in the table below.
 
-| Raw Event Type | eventName |
+| Event Name | Description |
 | ----------- | ----------- |
-| `mono.connect.widget_opened` | OPENED |
-| `mono.connect.on_exit` | EXIT |
-| `mono.connect.institution_selected` | INSTITUTION_SELECTED |
-| `mono.connect.auth_method_switched` | AUTH_METHOD_SWITCHED |
-| `mono.connect.login_attempt` | SUBMIT_CREDENTIALS |
-| `mono.connect.account_linked` | ACCOUNT_LINKED |
-| `mono.connect.account_selected` | ACCOUNT_SELECTED |
-| `mono.connect.error_occured` | ERROR |
+| OPENED | Triggered when the user opens the Connect Widget. |
+| EXIT | Triggered when the user closes the Connect Widget. |
+| INSTITUTION_SELECTED | Triggered when the user selects an institution. |
+| AUTH_METHOD_SWITCHED | Triggered when the user changes authentication method from internet to mobile banking, or vice versa. |
+| SUBMIT_CREDENTIALS | Triggered when the user presses Log in. |
+| ACCOUNT_LINKED | Triggered when the user successfully links their account. |
+| ACCOUNT_SELECTED | Triggered when the user selects a new account. |
+| ERROR | Triggered when the widget reports an error.|
 
 
 #### <a name="dataObject"></a> `data`
