@@ -20,14 +20,14 @@ For complete information about Mono Connect, head to the [docs](https://docs.mon
 
 You can install the package using NPM or Yarn;
 
-```bash 
+```bash
   npm install @mono.co/connect.js
 ```
 or
-```bash 
+```bash
   yarn add @mono.co/connect.js
 ```
-    
+
 ## Usage
 Click the links below for detailed examples on how to use connect.js with your favourite framework;
 - [React](docs/examples/react.md)
@@ -43,7 +43,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [`onLoad`](#onLoad)
 - [`onEvent`](#onEvent)
 
-### <a name="key"></a> `key` 
+### <a name="key"></a> `key`
 **Required**  
 This is your Mono public API key from the [Mono dashboard](https://app.withmono.com/apps).
 ```js
@@ -54,7 +54,7 @@ This is your Mono public API key from the [Mono dashboard](https://app.withmono.
 **Required**
 This function is called when a user has successfully onboarded their account. It should take a single String argument containing the token that can be [exchanged for an account id](https://docs.mono.co/reference/authentication-endpoint).
 ```js
-  new Connect({ 
+  new Connect({
     key: 'mono_public_key',
     onSuccess: (data) => {
       // in the case of authentication auth code is returned
@@ -62,14 +62,14 @@ This function is called when a user has successfully onboarded their account. It
       // in the case of direct debit payments
       // a charge object is return containing amount, transaction_reference, type...
       console.log("charge object", data);
-    } 
+    }
   });
 ```
 
 ### <a name="onClose"></a> `onClose`
 The optional closure is called when a user has specifically exited the Mono Connect flow (i.e. the widget is not visible to the user). It does not take any arguments.
 ```js
-  new Connect({ 
+  new Connect({
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onClose: () => console.log("widget has been closed")
@@ -79,7 +79,7 @@ The optional closure is called when a user has specifically exited the Mono Conn
 ### <a name="onLoad"></a> `onLoad`
 This function is invoked the widget has been mounted unto the DOM. You can handle toggling your trigger button within this callback.
 ```js
-  new Connect({ 
+  new Connect({
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onLoad: () => console.log("widget loaded successfully")
@@ -92,7 +92,7 @@ This optional function is called when certain events in the Mono Connect flow ha
 See the [data](#dataObject) object below for details.
 
 ```js
-  new Connect({ 
+  new Connect({
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("auth code", code),
     onEvent: (eventName, metadata) => { console.log(eventName); console.log(metadata) }
@@ -143,7 +143,7 @@ This method makes the widget visible to the user.
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("code", code),
   });
-  
+
   connect.setup();
   connect.open();
 ```
@@ -155,7 +155,7 @@ This method programatically hides the widget after it's been opened.
     key: 'mono_public_key',
     onSuccess: ({code}) => console.log("code", code),
   });
-  
+
   connect.setup();
   connect.open();
   // this closes the widget 5seconds after it has been opened
@@ -172,7 +172,7 @@ const connect = new Connect({
   onSuccess: ({code}) => console.log("code", code),
   onEvent: (eventName, data) => {
     console.log(eventName)
-    console.log(data)	
+    console.log(data)
   }
 });
 
@@ -197,7 +197,7 @@ Event names corespond to the `type` key returned by the raw event data. Possible
 #### <a name="dataObject"></a> `data`
 The data object returned from the onEvent callback.
 
-```json
+```js
 {
 	"reference": "ref_code_passed", // emitted in all events
 	"errorType": "ERORR_NAME", // emitted in ERROR
@@ -229,6 +229,3 @@ If you would like to contribute to the Mono Connect iOS SDK, please make sure to
 ## License
 
 [MIT](https://github.com/withmono/connect.js/tree/main/LICENSE) for more information.
-
-
-
