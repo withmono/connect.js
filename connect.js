@@ -14,7 +14,7 @@ function connect({
   onClose = anonFunc,
   onSuccess,
   onLoad = anonFunc,
-  onEvent,
+  onEvent = anonFunc,
   ...rest
 }) {
   if(typeof arguments[0] !== "object"){
@@ -29,11 +29,11 @@ function connect({
   }
 
   if(!(this instanceof connect)) return new connect({
-    key, 
-    onClose, 
-    onSuccess, 
-    onLoad, 
-    onEvent, 
+    key,
+    onClose,
+    onSuccess,
+    onLoad,
+    onEvent,
     ...rest
   });
 
@@ -132,7 +132,7 @@ connect.prototype.close = function () {
   this.onClose();
 }
 
-// Do not attach connect to window when imported server side. 
+// Do not attach connect to window when imported server side.
 // This makes the module safe to import in an isomorphic code base.
 if(typeof window !== "undefined") {
   window.Connect = connect;
