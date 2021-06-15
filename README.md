@@ -99,9 +99,9 @@ See the [data](#dataObject) object below for details.
 new Connect({
   key: 'mono_public_key',
   onSuccess: ({code}) => console.log("auth code", code),
-  onEvent: (eventName, data) => { 
-    console.log(eventName); 
-    console.log(data); 
+  onEvent: (eventName, data) => {
+    console.log(eventName);
+    console.log(data);
   }
 });
 ```
@@ -129,7 +129,7 @@ const connect = new Connect({
   onLoad: () => console.log("widget loaded successfully"),
   onClose: () => console.log("widget has been closed"),
   onEvent: (eventName, data) => {
-    console.log(eventName); 
+    console.log(eventName);
     console.log(data);
   },
   reference: "random_string"
@@ -247,7 +247,7 @@ The data object returned from the onEvent callback.
 
 
 ## Support
-If you're having general trouble with Mono Connect.js or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on [Slack](https://join.slack.com/t/devwithmono/shared_invite/zt-gvkqczzk-Ldt4FQpHtOL7FFTqh4Ux6A). We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+If you're having general trouble with Mono Connect.js or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
 
 ## Contributing
 
