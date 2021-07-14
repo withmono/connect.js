@@ -12,7 +12,7 @@ var utils = () => {
     }
 
     const { key, onload, qs, onevent } = config;
-    const encodedKeys = ["data"];
+    const encodedKeys = ["data", "selectedInstitution"]; // add keys for nested objects to be encoded
     var source = new URL("https://connect.withmono.com");
     source.searchParams.set("key", key);
     source.searchParams.set("referrer", window.location.href);
@@ -31,7 +31,7 @@ var utils = () => {
     document.body.insertBefore(container, document.body.childNodes[0]);
 
     var iframe = document.createElement("IFRAME");
-    iframe.setAttribute("src", `${source.href}`);
+    iframe.src = `${source.href}`;
     iframe.setAttribute("style", iframeStyle);
     iframe.setAttribute("id", "mono-connect--frame-id")
     iframe.setAttribute("allowfullscreen", "true");
@@ -55,7 +55,7 @@ var utils = () => {
       event['data'] = Object.assign({}, eventData);
       window.dispatchEvent(event);
 
-      // manually trigger LOADED since 
+      // manually trigger LOADED since
       // connect does not listen for events until the widget is opened
       onevent('LOADED', event.data.data);
     }
