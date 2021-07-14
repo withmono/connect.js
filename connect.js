@@ -1,6 +1,8 @@
 "use strict";
 
 var utils = require("./utils");
+const axios = require('axios').default
+
 const anonFunc = () => {};
 const isRequired = (name) => { throw new Error(`${name} is required`); };
 
@@ -48,14 +50,16 @@ function connect({
 }
 
 /**this is the entry function to setup the connect widget */
-connect.prototype.setup = function () {
+connect.prototype.setup = function (setup_configuration = {}) {
   connect.prototype.utils.addStyle();
+  
+  const qs = {...this.config, ...setup_configuration}
 
   connect.prototype.utils.init({
     key: this.key,
-    qs: this.config,
+    qs: qs,
     onload: this.onLoad,
-    onevent: this.onEvent
+    onevent: this.onEvent,
   });
 }
 
@@ -130,6 +134,15 @@ connect.prototype.close = function () {
   window.removeEventListener("message", this.eventHandler, false);
   connect.prototype.utils.closeWidget();
   this.onClose();
+}
+
+/* provided helper functions */
+connect.prototype.fetchInstitutions = function () {
+
+  const url = "https://api.withmono.com/coverage"
+
+  return axios.get(url)
+
 }
 
 // Do not attach connect to window when imported server side.
