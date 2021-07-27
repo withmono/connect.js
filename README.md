@@ -30,6 +30,11 @@ or
 ```bash
 yarn add @mono.co/connect.js
 ```
+Then import it into your project;
+
+```js
+import MonoConnect from '@mono.co/connect.js'
+```
 
 ## Usage
 Click the links below for detailed examples on how to use connect.js with your favourite framework;
