@@ -33,7 +33,7 @@ yarn add @mono.co/connect.js
 Then import it into your project;
 
 ```js
-import MonoConnect from '@mono.co/connect.js'
+import Connect from '@mono.co/connect.js'
 ```
 
 ## Usage
