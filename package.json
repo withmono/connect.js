@@ -28,5 +28,8 @@
     "terser-webpack-plugin": "^4.2.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
   }
 }

@@ -51,6 +51,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [`onLoad`](#onLoad)
 - [`onEvent`](#onEvent)
 - [`reference`](#reference)
+- [`setupConfig`](#setupConfig)
 
 ### <a name="key"></a> `key`
 **Required**  
@@ -123,10 +124,29 @@ new Connect({
 });
 ```
 
+### <a name="setupConfig"></a> `setupConfig`
+This optional configuration object is used as a way to load the Connect Widget directly to an institution login page. 
+
+
+```js
+const config = {
+  selectedInstitution: {
+    id: "5f2d08c060b92e2888287706", // the id of the institution to load
+    auth_method: "internet_banking" // internet_banking or mobile_banking
+  }
+}
+
+connect.setup(config);
+```
+
+
 ## API Reference
 
-### `setup()`
-This method is used to load the widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.
+### `setup(config: object)`
+This method is used to load the widget onto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.
+
+It also allows an optional configuration object to be passed. When the setup method is called without a config object, the list of institutions will be displayed for a user to select from.
+
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
@@ -140,7 +160,14 @@ const connect = new Connect({
   reference: "random_string"
 });
 
-connect.setup();
+const config = {
+  selectedInstitution: {
+    id: "5f2d08c060b92e2888287706",
+    auth_method: "internet_banking"
+  }
+}
+
+connect.setup(config);
 ```
 
 ### `reauthorise(reauth_code: string)`
@@ -164,6 +191,7 @@ connect.reauthorise("auth_fb8PP3jYA0");
 
 > NOTE  
 > the `reauthorise` method and `setup` method should be used separately. When used together, the last called method takes precedence.
+
 
 ### `open()`
 This method makes the widget visible to the user.
