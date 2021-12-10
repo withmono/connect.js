@@ -1,5 +1,7 @@
 ## useMono composable
+
 Create a composable useMono.js file and paste this there
+
 ```js
 //composables/useMono.js
 import MonoConnect from '@mono.co/connect.js';
@@ -39,7 +41,9 @@ export default function useMono(key, success = () => {}, onEvent = () => {}) {
 ```
 
 ## Link account
+
 Link a user account
+
 ```vue
 <script setup>
  import '@mono.co/connect.js';
@@ -69,11 +73,12 @@ Link a user account
 </template>
 ```
 
-## Reauthorisation 
+## Reauthorisation
 
-You can reauthorise a user acount if required. Using the `reAuthoriseAccount` method. 
+You can reauthorise a user acount if required. Using the `reAuthoriseAccount` method.
 
 See example below;
+
 ```vue
 <script setup>
  import '@mono.co/connect.js';
@@ -99,12 +104,16 @@ See example below;
 </script>
 
 <template>
- <button @click.prevent="reAuthoriseAccount('code_xyzUi8olavk')">Reauthorise user account</button>
+ <button @click.prevent="reAuthoriseAccount('code_xyzUi8olavk')">
+  Reauthorise user account
+ </button>
 </template>
 ```
 
 ## Direct Debit
+
 Charge an account `one-time-debit` or `recurring`.
+
 ```vue
 <script setup>
  import '@mono.co/connect.js';
