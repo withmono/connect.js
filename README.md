@@ -30,6 +30,10 @@ or
 ```bash
 yarn add @mono.co/connect.js
 ```
+or
+```bash
+pnpm add @mono.co/connect.js
+```
 Then import it into your project;
 
 ```js
