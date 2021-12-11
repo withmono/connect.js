@@ -62,7 +62,7 @@ Link a user account
  };
 
  const { connect } = useMono(
-  'live_pk_d2X0CSU0qIZX9AH1ZwXV',
+  'PUBLIC_KEY',
   success,
   onEvent, // optional. unless it's required
  );
@@ -132,7 +132,7 @@ Charge an account `one-time-debit` or `recurring`.
  };
 
  const { directDebit } = useMono(
-  'live_pk_d2X0CSU0qIZX9AH1ZwXV',
+  'PUBLIC_KEY',
   success,
   onEvent, // optional. unless it's required
  );
