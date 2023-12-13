@@ -13,13 +13,13 @@ var utils = () => {
 
     const { key, onload, qs, onevent } = config;
     const encodedKeys = ["data", "selectedInstitution"]; // add keys for nested objects to be encoded
-    var source = new URL("https://connect.withmono.com");
+    var source = new URL("https://connect.mono.co");
     source.searchParams.set("key", key);
     source.searchParams.set("referrer", window.location.href);
     source.searchParams.set("version", "2021-06-03");
     Object.keys(qs).map(k => {
       if(encodedKeys.includes(k)) {
-        const encodedVal = encodeURIComponent(JSON.stringify(qs[k]));
+        const encodedVal = JSON.stringify(qs[k]);
         return source.searchParams.set(k, encodedVal);
       }
       source.searchParams.set(k, qs[k]);
