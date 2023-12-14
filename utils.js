@@ -16,7 +16,7 @@ var utils = () => {
     var source = new URL("https://connect.mono.co");
     source.searchParams.set("key", key);
     source.searchParams.set("referrer", window.location.href);
-    source.searchParams.set("version", "2021-06-03");
+    source.searchParams.set("version", "2023-12-14");
     Object.keys(qs).map(k => {
       if(encodedKeys.includes(k)) {
         const encodedVal = JSON.stringify(qs[k]);
