@@ -71,9 +71,9 @@ connect.prototype.open = function () {
   connect.prototype.utils.openWidget();
 
   function handleEvents(event){
-
     switch(event.data.type) {
       /* Old callbacks */
+      case "mono.connect.widget.charge_complete":
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
         this.onEvent('SUCCESS', event.data.data);
