@@ -19,17 +19,6 @@ function connect({
   onEvent = anonFunc,
   ...rest
 }) {
-  if(typeof arguments[0] !== "object"){
-    //DEPRECATION warning
-    console.warn(`DEPRECATED: MONO CONNECT EXPECTED 1 ARGUMENT, BUT GOT ${arguments.length}`);
-
-    key = arguments[0] || isRequired("PUBLIC_KEY");
-    onClose = arguments[1].onClose || anonFunc;
-    onSuccess = arguments[1].onSuccess || isRequired("onSuccess callback");
-    onLoad = arguments[1].onLoad || anonFunc;
-    rest = {};
-  }
-
   if(!(this instanceof connect)) return new connect({
     key,
     onClose,
@@ -82,9 +71,9 @@ connect.prototype.open = function () {
   connect.prototype.utils.openWidget();
 
   function handleEvents(event){
-
     switch(event.data.type) {
       /* Old callbacks */
+      case "mono.connect.widget.charge_complete":
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
         this.onEvent('SUCCESS', event.data.data);

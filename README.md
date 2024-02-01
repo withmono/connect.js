@@ -5,6 +5,18 @@ Mono Connect.js is a quick and secure way to link bank accounts to Mono from wit
 
 For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
 
+## Version 2.0.0 Public Beta
+
+<b>Important</b>: Version 2.0.0 is currently in the public beta phase. This means it's available for testing and feedback from the community. Please be aware that there may be bugs, and some features might undergo changes before the stable release.
+
+### How to Install the Beta Version
+
+To try out the beta version, use the following command:
+
+```bash
+npm install @mono.co/connect.js@2.0.0
+```
+
 ## Documentation
 
 For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/intro-to-mono-connect-widget).
@@ -46,6 +58,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
 ## Parameters
 - [`key`](#key)
+- [`customer`](#customer)
 - [`onSuccess`](#onSuccess)
 - [`onClose`](#onClose)
 - [`onLoad`](#onLoad)
@@ -57,7 +70,31 @@ Click the links below for detailed examples on how to use connect.js with your f
 **Required**  
 This is your Mono public API key from the [Mono dashboard](https://app.withmono.com/apps).
 ```js
-new Connect({ key: 'mono_public_key' });
+new Connect({ key: 'mono_public_key', scope: 'auth' });
+```
+
+### <a name="customer"></a> `Customer`
+**Required**  
+
+```js
+// you can pass id of an existing mono customer
+// const customer = { id: '611aa53041247f2801efb222' } // mono customer id
+
+// or create a new mono customer
+const customer = {
+  name: 'Samuel Olumide',
+  email: 'samuel.olumide@gmail.com',
+  identity: {
+    type: 'bvn',
+    number: '2323233239'
+  },
+}
+
+new Connect({ 
+  key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
+});
 ```
 
 ### <a name="onSuccess"></a> `onSuccess`      
@@ -66,6 +103,8 @@ This function is called when a user has successfully onboarded their account. It
 ```js
 new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: (data) => {
     // in the case of authentication auth code is returned
     console.log("auth code", data.code);
@@ -81,6 +120,8 @@ The optional closure is called when a user has specifically exited the Mono Conn
 ```js
 new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("auth code", code),
   onClose: () => console.log("widget has been closed")
 });
@@ -91,6 +132,8 @@ This function is invoked the widget has been mounted unto the DOM. You can handl
 ```js
 new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("auth code", code),
   onLoad: () => console.log("widget loaded successfully")
 });
@@ -104,6 +147,8 @@ See the [data](#dataObject) object below for details.
 ```js
 new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("auth code", code),
   onEvent: (eventName, data) => {
     console.log(eventName);
@@ -119,6 +164,8 @@ This optional string is used as a reference to the current instance of Mono Conn
 ```js
 new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("auth code", code),
   reference: "some_random_string"
 });
@@ -150,6 +197,8 @@ It also allows an optional configuration object to be passed. When the setup met
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("code", code),
   onLoad: () => console.log("widget loaded successfully"),
   onClose: () => console.log("widget has been closed"),
@@ -180,6 +229,7 @@ Check Mono [docs](https://docs.mono.co/reference/intro#reauth-code) on how to ob
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
   onSuccess: ({code}) => console.log("code", code),
 });
 connect.reauthorise("auth_fb8PP3jYA0");
@@ -198,6 +248,8 @@ This method makes the widget visible to the user.
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("code", code),
 });
 
@@ -210,6 +262,8 @@ This method programatically hides the widget after it's been opened.
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("code", code),
 });
 
@@ -227,6 +281,8 @@ The onEvent callback returns two paramters, [eventName](#eventName) a string con
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
+  scope: 'auth',
+  data: { customer },
   onSuccess: ({code}) => console.log("code", code),
   onEvent: (eventName, data) => {
     if(eventName == "OPENED"){
