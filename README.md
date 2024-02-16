@@ -42,6 +42,10 @@ or
 ```bash
 yarn add @mono.co/connect.js
 ```
+or
+```bash
+pnpm add @mono.co/connect.js
+```
 Then import it into your project;
 
 ```js
@@ -53,6 +57,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [React](docs/examples/react.md)
 - [Angular](docs/examples/angular.md)
 - [Next.js](docs/examples/nextjs.md)
+- [Vue.js](docs/examples/vue.md)
 
 > NOTE  
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
