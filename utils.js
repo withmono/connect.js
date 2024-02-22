@@ -38,6 +38,7 @@ var utils = () => {
     iframe.setAttribute("frameborder", 0);
     iframe.setAttribute("title", "Mono connect")
     iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-popups");
+    iframe.setAttribute("allow", "clipboard-write; clipboard-read; camera");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
       if(iframe.style.visibility === "visible") {
