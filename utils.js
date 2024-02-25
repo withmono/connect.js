@@ -1,28 +1,29 @@
 "use strict";
 
 var utils = () => {
-  
+
   function init(config) {
     // check if container and iframe is already rendered on the DOM
     if(
-      document.getElementById('mono-connect--widget-div')
+      document.getElementById("mono-connect--widget-div")
       && document.getElementById("mono-connect--frame-id")
     ) {
-      document.getElementById('mono-connect--widget-div').remove();
+      document.getElementById("mono-connect--widget-div").remove();
     }
 
-    const { key, onload, qs } = config;
-    const encodedKeys = ["data"];
-    var source = new URL('https://connect.withmono.com');
-    source.searchParams.set('key', key);
-    source.searchParams.set('referrer', window.location.href);
+    const { key, onload, qs, onevent } = config;
+    const encodedKeys = ["data", "selectedInstitution"]; // add keys for nested objects to be encoded
+    var source = new URL("https://connect.mono.co");
+    source.searchParams.set("key", key);
+    source.searchParams.set("referrer", window.location.href);
+    source.searchParams.set("version", "2023-12-14");
     Object.keys(qs).map(k => {
       if(encodedKeys.includes(k)) {
-        const encodedVal = encodeURIComponent(JSON.stringify(qs[k]));
+        const encodedVal = JSON.stringify(qs[k]);
         return source.searchParams.set(k, encodedVal);
-      } 
+      }
       source.searchParams.set(k, qs[k]);
-    })
+    });
 
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
@@ -30,24 +31,39 @@ var utils = () => {
     document.body.insertBefore(container, document.body.childNodes[0]);
 
     var iframe = document.createElement("IFRAME");
-    iframe.setAttribute("src", `${source.href}`);
+    iframe.src = `${source.href}`;
     iframe.setAttribute("style", iframeStyle);
     iframe.setAttribute("id", "mono-connect--frame-id")
     iframe.setAttribute("allowfullscreen", "true");
     iframe.setAttribute("frameborder", 0);
     iframe.setAttribute("title", "Mono connect")
     iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-popups");
+    iframe.setAttribute("allow", "clipboard-write; clipboard-read; camera");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
       if(iframe.style.visibility === "visible") {
         loader.style.display = "none";
       }
       onload()
+
+      // dispatch LOADED event
+      let event = new Event("message");
+      let eventData = {
+        type: 'mono.connect.widget_loaded',
+        data: { timestamp: Date.now() }
+      };
+
+      event['data'] = Object.assign({}, eventData);
+      window.dispatchEvent(event);
+
+      // manually trigger LOADED since
+      // connect does not listen for events until the widget is opened
+      onevent('LOADED', event.data.data);
     }
 
     var loader = createLoader();
-    document.getElementById('mono-connect--widget-div').appendChild(loader);
-    document.getElementById('mono-connect--widget-div').appendChild(iframe);
+    document.getElementById("mono-connect--widget-div").appendChild(loader);
+    document.getElementById("mono-connect--widget-div").appendChild(iframe);
   }
 
   function turnOnVisibility() {
@@ -67,7 +83,7 @@ var utils = () => {
     container.style.visibility = "hidden";
     frame.style.visibility = "hidden";
   }
-  
+
   function openWidget() {
     var container = document.getElementById("mono-connect--widget-div");
     var loader = document.getElementById("mono-connect-app-loader");
@@ -76,10 +92,20 @@ var utils = () => {
     container.style.display = "flex";
     loader.style.display = "block";
 
-    setTimeout(() => { 
-      turnOnVisibility(); 
+    setTimeout(() => {
+      turnOnVisibility();
       frame.focus({preventScroll: false})
       container.focus({preventScroll: false})
+
+      // dispatch OPENED event
+      let event = new Event("message");
+      let eventData = {
+        type: 'mono.connect.widget_opened',
+        data: { timestamp: Date.now() }
+      };
+
+      event["data"] = Object.assign({}, eventData);
+      window.dispatchEvent(event);
     }, 2000);
   }
 
@@ -103,7 +129,7 @@ var utils = () => {
   }
 
   function addStyle() {
-    var styleSheet = document.createElement("style");
+    let styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
     styleSheet.innerText = loaderStyles;
     document.head.appendChild(styleSheet);
