@@ -5,16 +5,16 @@ Mono Connect.js is a quick and secure way to link bank accounts to Mono from wit
 
 For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
 
-## Version 2.0.0 Public Beta
+## Version 2.0.2 Public Beta
 
-<b>Important</b>: Version 2.0.0 is currently in the public beta phase. This means it's available for testing and feedback from the community. Please be aware that there may be bugs, and some features might undergo changes before the stable release.
+<b>Important</b>: Version 2.0.2 is currently in the public beta phase. This means it's available for testing and feedback from the community. Please be aware that there may be bugs, and some features might undergo changes before the stable release.
 
 ### How to Install the Beta Version
 
 To try out the beta version, use the following command:
 
 ```bash
-npm install @mono.co/connect.js@2.0.0
+npm install @mono.co/connect.js@2.0.2
 ```
 
 ## Documentation
