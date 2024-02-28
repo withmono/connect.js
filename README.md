@@ -49,7 +49,7 @@ import Connect from '@mono.co/connect.js'
 ```
 
 ## Usage
-Click the links below for detailed examples on how to use connect.js with your favourite framework;
+Click the links below for detailed examples on how to use connect.js with your favorite framework;
 - [React](docs/examples/react.md)
 - [Angular](docs/examples/angular.md)
 - [Next.js](docs/examples/nextjs.md)
