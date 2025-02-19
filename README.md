@@ -3,23 +3,11 @@
 
 Mono Connect.js is a quick and secure way to link bank accounts to Mono from within your app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app (credential validation, multi-factor authentication, error handling, etc). It works with all major javascript frameworks.
 
-For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
-
-## Version 2.0.2 Public Beta
-
-<b>Important</b>: Version 2.0.2 is currently in the public beta phase. This means it's available for testing and feedback from the community. Please be aware that there may be bugs, and some features might undergo changes before the stable release.
-
-### How to Install the Beta Version
-
-To try out the beta version, use the following command:
-
-```bash
-npm install @mono.co/connect.js@2.0.2
-```
+For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/api).
 
 ## Documentation
 
-For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/intro-to-mono-connect-widget).
+For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/financial-data/overview).
 
 ## Requirements
 Node 10 or higher.
@@ -27,8 +15,8 @@ Node 10 or higher.
 
 ## Getting Started
 
-1. Register on the [Mono](https://app.withmono.com/dashboard) website and get your public and secret keys.
-2. Setup a server to [exchange tokens](https://docs.mono.co/reference/authentication-endpoint) to access user financial data with your Mono secret key.
+1. Register on the [Mono](https://app.mono.com) website and get your public and secret keys.
+2. Setup a server to [exchange tokens](https://docs.mono.co/api/bank-data/authorisation/exchange-token) to access user financial data with your Mono secret key.
 
 
 ## Installation
@@ -68,7 +56,7 @@ Click the links below for detailed examples on how to use connect.js with your f
 
 ### <a name="key"></a> `key`
 **Required**  
-This is your Mono public API key from the [Mono dashboard](https://app.withmono.com/apps).
+This is your Mono public API key from the [Mono dashboard](https://app.mono.co/apps).
 ```js
 new Connect({ key: 'mono_public_key', scope: 'auth' });
 ```
@@ -219,12 +207,26 @@ const config = {
 connect.setup(config);
 ```
 
-### `reauthorise(reauth_code: string)`
+### `reauthorise(accountId: string)`
 This methods loads the reauth widget unto the DOM, the widget remains hidden after invoking this function until the `open()` method is called.   
 
-Reauthorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution or it has been setup by the user for security purposes before more data can be fetched from the account.
+Re-authorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution or it has been setup by the user for security purposes before more data can be fetched from the account.
 
-Check Mono [docs](https://docs.mono.co/reference/intro#reauth-code) on how to obtain `reauth_code` of an account.
+#### Fetching Account ID for previously linked account
+
+You can fetch the Account ID of a linked account from the [Mono dashboard](https://app.mono.co/customers) or [API](https://docs.mono.co/docs/customers).
+
+Alternatively, make an API call to the [Exchange Token Endpoint](https://api.withmono.com/v2/accounts/auth) with the code from a successful linking and your mono application secret key. If successful, this will return an Account ID.
+
+##### Sample request:
+```shell
+curl --request POST \
+  --url https://api.withmono.com/v2/accounts/auth \
+  --header 'Content-Type: application/json' \
+  --header 'accept: application/json' \
+  --header 'mono-sec-key: your_secret_key' \
+  --data '{"code":"string"}'
+```
 
 ```js
 const connect = new Connect({
@@ -232,12 +234,12 @@ const connect = new Connect({
   scope: 'auth',
   onSuccess: ({code}) => console.log("code", code),
 });
-connect.reauthorise("auth_fb8PP3jYA0");
+connect.reauthorise("account_xyz");
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `reauth_code`      | `string` | **Required**. Reauth code of the account to be reauthorised |
+| Parameter   | Type     | Description                                        |
+|:------------| :------- |:---------------------------------------------------|
+| `accountId` | `string` | **Required**. ID of the account to be reauthorised |
 
 > NOTE  
 > the `reauthorise` method and `setup` method should be used separately. When used together, the last called method takes precedence.
@@ -258,7 +260,7 @@ connect.open();
 ```
 
 ### `close()`
-This method programatically hides the widget after it's been opened.
+This method programmatically hides the widget after it's been opened.
 ```js
 const connect = new Connect({
   key: 'mono_public_key',
@@ -276,7 +278,7 @@ setTimeout(() => connect.close(), 5000)
 
 ### <a name="onEventCallback"></a> onEvent Callback
 
-The onEvent callback returns two paramters, [eventName](#eventName) a string containing the event name and [data](#dataObject) an object that contains event metadata.
+The onEvent callback returns two parameters, [eventName](#eventName) a string containing the event name and [data](#dataObject) an object that contains event metadata.
 
 ```js
 const connect = new Connect({
@@ -299,7 +301,7 @@ const connect = new Connect({
 
 #### <a name="eventName"></a> `eventName`
 
-Event names corespond to the `type` key returned by the raw event data. Possible options are in the table below.
+Event names correspond to the `type` key returned by the raw event data. Possible options are in the table below.
 
 | Event Name | Description |
 | ----------- | ----------- |
@@ -336,7 +338,7 @@ The data object returned from the onEvent callback.
 
 
 ## Support
-If you're having general trouble with Mono Connect.js or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+If you're having general trouble with Mono Connect.js or your Mono integration, please reach out to us at <support@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
 
 ## Contributing
 
