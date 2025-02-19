@@ -66,7 +66,10 @@ connect.prototype.reauthorise = function (accountId) {
     key: this.key,
     qs: {
       ...this.config,
-      account: accountId,
+      data: {
+        ...(this.config.data || {}),
+        account: accountId,
+      },
     },
     onload: this.onLoad,
     onevent: this.onEvent
