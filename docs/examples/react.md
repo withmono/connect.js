@@ -28,9 +28,9 @@ export default function App() {
 }
 ```
 
-## Reauthorisation 
+## Re-authorisation 
 
-You can reauthorise a user acount if required. Using the `reauthorise()` function. 
+You can reauthorise a user account if required. Using the `reauthorise()` function. 
 
 - Note, the `reauthorise()` function should be used in place of the `setup()` function. The two should not be used at the same time.
 
@@ -51,8 +51,8 @@ export default function App() {
   }, [])
 
   function reauthoriseAccount() {
-    const reauth_token = "code_xyzUi8olavk";
-    monoConnect.reauthorise(reauth_token);
+    const accountId = "account_xyz";
+    monoConnect.reauthorise(accountId);
     monoConnect.open();
   }
 
