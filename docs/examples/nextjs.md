@@ -33,9 +33,9 @@ export default function IndexPage() {
 }
 ```
 
-## Reauthorisation 
+## Re-authorisation 
 
-You can reauthorise a user acount if required. Using the `reauthorise()` function. 
+You can reauthorise a user account if required. Using the `reauthorise()` function. 
 
 - Note, the `reauthorise()` function should be used in place of the `setup()` function. The two should not be used at the same time.
 
@@ -44,7 +44,7 @@ See example below;
 import { useState, useCallback } from "react";
 
 export default function IndexPage() {
-  const [reauthCode, setReauthCode] = useState("reauth_toKeN");
+  const [accountId, setAccountId] = useState("account_xyz");
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   const reauthenticate = useCallback(async () => {
@@ -57,7 +57,7 @@ export default function IndexPage() {
       onSuccess: ({ code }) => console.log(`Reauth successful: ${code}`),
     });
 
-    monoInstance.reauthorise(reauthCode);
+    monoInstance.reauthorise(accountId);
     monoInstance.open();
   }, []);
 

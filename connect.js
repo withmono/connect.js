@@ -52,15 +52,25 @@ connect.prototype.setup = function (setup_configuration = {}) {
   });
 }
 
-connect.prototype.reauthorise = function (reauth_token) {
-  if(!reauth_token) {
-    throw new Error("Re-auth token is required for reauthorisation");
+connect.prototype.reauthorise = function (accountId) {
+  if(!accountId) {
+    throw new Error("Account ID is required for re-authorisation");
+  }
+
+  if (typeof accountId !== "string") {
+    throw new Error("Invalid accountId: must be a string");
   }
 
   connect.prototype.utils.addStyle();
   connect.prototype.utils.init({
     key: this.key,
-    qs: {...this.config, reauth_token},
+    qs: {
+      ...this.config,
+      data: {
+        ...(this.config.data || {}),
+        account: accountId,
+      },
+    },
     onload: this.onLoad,
     onevent: this.onEvent
   });

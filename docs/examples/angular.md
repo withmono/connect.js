@@ -34,9 +34,9 @@ export class MonoComponent implements OnInit {
 </button>
 ```
 
-## Reauthorisation 
+## Re-authorisation 
 
-You can reauthorise a user acount if required. Using the `reauthorise()` function. 
+You can reauthorise a user account if required. Using the `reauthorise()` function. 
 
 - Note, the `reauthorise()` function should be used in place of the `setup()` function. The two should not be used at the same time.
 
@@ -59,7 +59,7 @@ export class MonoComponent implements OnInit {
       onSuccess: ({ code }) => console.log(`Reauth successful: ${code}`)
     })
 
-    this.monoInstance.reauthorise("auth_vb6klH234ox")
+    this.monoInstance.reauthorise("account_xyz")
   }
 
   ngOnInit() {}
