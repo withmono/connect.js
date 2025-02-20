@@ -7,7 +7,8 @@
     "build": "./node_modules/.bin/webpack -p --config ./webpack.config.js"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "latest"
   },
   "repository": {
     "type": "git",
