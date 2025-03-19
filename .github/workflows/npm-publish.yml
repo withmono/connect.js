@@ -2,18 +2,31 @@ name: npm-publish
 on:
   push:
     branches:
-      - develop # default branch
+      - develop
+
 jobs:
   publish:
+    name: Build and Publish Project
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 10
-      - run: npm install
-      - run: npm run build
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_AUTH_TOKEN }}
-          check-version: true
+          node-version: 22
+          cache: 'npm'
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Publish project
+        run: npm publish --access public
