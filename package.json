@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/withmono/connect.js#readme",
   "devDependencies": {
-    "terser-webpack-plugin": "^4.2.2",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "terser-webpack-plugin": "^4.2.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "1.8.2"
   }
 }
