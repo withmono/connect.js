@@ -160,15 +160,18 @@ new Connect({
 ```
 
 ### <a name="setupConfig"></a> `setupConfig`
-This optional configuration object is used as a way to load the Connect Widget directly to an institution login page. 
+The selectedInstitution object is used as a way to load the Connect Widget directly to an institution login page.
+The Account Match feature allows you to verify that the account number provided by a customer matches the account number returned from their linked bank account.
 
 
 ```js
 const config = {
   selectedInstitution: {
     id: "5f2d08c060b92e2888287706", // the id of the institution to load
-    auth_method: "internet_banking" // internet_banking or mobile_banking
-  }
+    auth_method: "internet_banking", // internet_banking or mobile_banking
+    account_number: "02605538421" // the customer's account number
+  },
+  check_account_match: true
 }
 
 connect.setup(config);
