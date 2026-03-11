@@ -9,7 +9,7 @@ const isRequired = (name) => { throw new Error(`${name} is required`); };
 /**
  * This function creates a connect object and returns it's properties
  * @param {*} key public key gotten from Mono dashboard - REQUIRED
- * @param {*} options optional params functions the be invoked on success, on load and on close
+ * @param {*} options optional params functions to be invoked on success, on load and on close
  */
 function connect({
   key,
