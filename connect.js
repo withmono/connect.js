@@ -87,7 +87,6 @@ connect.prototype.open = function () {
       case "mono.connect.widget.account_linked":
         this.onSuccess({...event.data.data});
         this.onEvent('SUCCESS', event.data.data);
-        connect.prototype.close(); // close widget on success
         break;
       case "mono.connect.widget.closed":
         connect.prototype.close();
