@@ -41,9 +41,34 @@ Click the links below for detailed examples on how to use connect.js with your f
 - [React](docs/examples/react.md)
 - [Angular](docs/examples/angular.md)
 - [Next.js](docs/examples/nextjs.md)
+- [TypeScript (Next.js)](docs/examples/typescript.md)
 
 > NOTE  
 > The list above is not exhaustive, you can use this package in other frontend javascript frameworks.
+
+## TypeScript
+Type definitions are included, so you do not need a separate `@types` package. Use a default import. This needs `esModuleInterop` in your `tsconfig.json`, which is already on in Next.js and Vite projects.
+
+```ts
+import Connect from "@mono.co/connect.js";
+
+const connect = new Connect({
+  key: "mono_public_key",
+  scope: "auth",
+  onSuccess: ({ code }) => {
+    // exchange `code` for an account id on your server
+    console.log("auth code", code);
+  },
+  onEvent: (eventName, data) => {
+    if (eventName === "INSTITUTION_SELECTED") console.log(data.institution?.name);
+  },
+});
+
+connect.setup();
+connect.open();
+```
+
+The other types live in the `Connect` namespace, for example `Connect.Config`, `Connect.EventName`, `Connect.EventData` and `Connect.SuccessData`.
 ## Parameters
 - [`key`](#key)
 - [`customer`](#customer)
