@@ -13,6 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/withmono/connect.js.git"
   },
+  "types": "./types/connect.d.ts",
   "keywords": [
     "mono",
     "connect",
