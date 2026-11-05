@@ -1,4 +1,5 @@
 "use strict";
+/* global __SDK_VERSION__:readonly */
 
 var utils = () => {
 
@@ -24,6 +25,7 @@ var utils = () => {
       }
       source.searchParams.set(k, qs[k]);
     });
+    source.searchParams.set("sdk_version", __SDK_VERSION__);
 
     var container = document.createElement("div");
     container.setAttribute("id", "mono-connect--widget-div");
