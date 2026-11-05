@@ -3,6 +3,7 @@
   "version": "2.3.1",
   "description": "Mono Connect Library",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "webpack --config ./webpack.config.js"
   },
