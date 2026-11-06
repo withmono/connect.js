@@ -1,6 +1,6 @@
 {
   "name": "@mono.co/connect.js",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Mono Connect Library",
   "main": "index.js",
   "scripts": {

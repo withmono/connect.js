@@ -1,8 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const { version } = require('./package.json');
 
 module.exports = {
+  plugins: [
+    new webpack.DefinePlugin({
+      __SDK_VERSION__: JSON.stringify(version)
+    })
+  ],
   entry: {
     index: [
       path.resolve(__dirname, 'utils.js'),
