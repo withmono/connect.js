@@ -46,7 +46,11 @@ export default function IndexPage() {
 ```
 
 ## Direct debit
+Like the example above, the next two snippets must run in the browser, for example inside a click handler.
+
 ```ts
+import MonoConnect from "@mono.co/connect.js";
+
 const connect = new MonoConnect({
   key: "PUBLIC_KEY",
   scope: "payments",
@@ -55,12 +59,15 @@ const connect = new MonoConnect({
     amount: 150000, // amount in kobo
     description: "Payment for light bill",
   },
-  onSuccess: ({ code }) => console.log(code),
+  // direct debit returns a charge object (amount, transaction_reference, type), not a `code`
+  onSuccess: (charge) => console.log(charge.transaction_reference),
 });
 ```
 
 ## Re-authorisation
 ```ts
+import MonoConnect from "@mono.co/connect.js";
+
 const connect = new MonoConnect({ key: "PUBLIC_KEY", onSuccess: ({ code }) => console.log(code) });
 connect.reauthorise("account_xyz"); // use this instead of setup()
 connect.open();
