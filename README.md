@@ -85,6 +85,9 @@ new Connect({
 });
 ```
 
+> **Privacy note**  
+> The `data` object is sent to the widget in the URL, so avoid passing full customer PII (name, email, BVN) when you can. If the customer already exists on Mono, pass just `{ id: '<mono_customer_id>' }`.
+
 ### <a name="onSuccess"></a> `onSuccess`      
 **Required**
 This function is called when a user has successfully onboarded their account. It should take a single String argument containing the token that can be [exchanged for an account id](https://docs.mono.co/reference/authentication-endpoint).
@@ -144,6 +147,9 @@ new Connect({
   }
 });
 ```
+
+> **Privacy note**  
+> `SUBMIT_CREDENTIALS` and `SUBMIT_MFA` carry only non-sensitive metadata (`reference`, `timestamp`, and `mfaType` for MFA). The credentials and MFA codes themselves are never relayed to your app.
 
 ### <a name="reference"></a> `reference`
 This optional string is used as a reference to the current instance of Mono Connect. It will be passed to the data object in all onEvent callbacks. It's recommended to pass a random string.

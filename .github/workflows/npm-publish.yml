@@ -1,8 +1,11 @@
 name: npm-publish
 on:
+  # Publish only on explicit version tags (or manual dispatch), never on
+  # every push, so a stray commit to develop cannot ship to the npm registry.
   push:
-    branches:
-      - develop
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 permissions:
   id-token: write

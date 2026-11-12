@@ -3,6 +3,11 @@
 
 var utils = () => {
 
+  // The SDK's own onEvent callback, captured in init() so lifecycle events
+  // (LOADED, OPENED) are delivered directly instead of riding the window
+  // "message" channel, which is origin-checked and forgeable by page scripts.
+  let oneventCb = () => {};
+
   function init(config) {
     // check if container and iframe is already rendered on the DOM
     if(
@@ -13,10 +18,14 @@ var utils = () => {
     }
 
     const { key, onload, qs, onevent } = config;
+    oneventCb = onevent || oneventCb;
     const encodedKeys = ["data", "selectedInstitution"]; // add keys for nested objects to be encoded
     var source = new URL("https://connect.mono.co");
     source.searchParams.set("key", key);
-    source.searchParams.set("referrer", window.location.href);
+    // Send only origin + pathname: the query string and hash often contain
+    // session tokens, API keys, or PII and must not be shared with the widget.
+    const hostUrl = new URL(window.location.href);
+    source.searchParams.set("referrer", hostUrl.origin + hostUrl.pathname);
     source.searchParams.set("version", "2023-12-14");
     Object.keys(qs).map(k => {
       if(encodedKeys.includes(k)) {
@@ -39,11 +48,19 @@ var utils = () => {
     iframe.setAttribute("allowfullscreen", "true");
     iframe.setAttribute("frameborder", 0);
     iframe.setAttribute("title", "Mono connect")
-    iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-popups");
-    iframe.setAttribute("allow", "clipboard-write; clipboard-read; camera");
+    // Hardened sandbox: `allow-same-origin` is omitted (combined with
+    // `allow-scripts` it defeats the sandbox), and no `allow-top-navigation*`
+    // flag is set so the widget can never redirect the host page.
+    iframe.setAttribute("sandbox", "allow-forms allow-scripts allow-popups");
+    // `clipboard-read` is intentionally omitted: it would let the widget read
+    // the user's clipboard (e.g. password manager contents).
+    iframe.setAttribute("allow", "clipboard-write; camera");
+    // Never let the host page's full URL leak as a Referer header, even if
+    // the host sets a permissive global referrer policy.
+    iframe.setAttribute("referrerpolicy", "strict-origin");
     iframe.onload = function() {
       var loader = document.getElementById("mono-connect-app-loader");
-      if(iframe.style.visibility === "visible") {
+      if(loader && iframe.style.visibility === "visible") {
         loader.style.display = "none";
       }
       onload()
@@ -92,14 +109,16 @@ var utils = () => {
     var frame = document.getElementById("mono-connect--frame-id");
     container.style.visibility = "visible";
     container.style.display = "flex";
-    loader.style.display = "block";
+    if(loader) {
+      loader.style.display = "block";
+    }
 
     setTimeout(() => {
       turnOnVisibility();
       frame.focus({preventScroll: false})
       container.focus({preventScroll: false})
 
-      // dispatch OPENED event
+      // dispatch OPENED event (for external listeners on window "message")
       let event = new Event("message");
       let eventData = {
         type: 'mono.connect.widget_opened',
@@ -108,6 +127,10 @@ var utils = () => {
 
       event["data"] = Object.assign({}, eventData);
       window.dispatchEvent(event);
+
+      // deliver OPENED to the SDK's own onEvent directly; the window
+      // "message" channel is origin-checked and cannot carry local events
+      oneventCb('OPENED', { timestamp: Date.now() });
     }, 2000);
   }
 
