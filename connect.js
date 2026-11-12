@@ -6,6 +6,21 @@ const axios = require('axios').default
 const anonFunc = () => {};
 const isRequired = (name) => { throw new Error(`${name} is required`); };
 
+// The only origin whose "message" events are trusted.
+const WIDGET_ORIGIN = "https://connect.mono.co";
+
+// Events that carry user-entered credentials (bank logins, MFA codes) must
+// not be relayed to the host app. Forward only documented, non-sensitive
+// metadata.
+const safeEventMeta = (data) => {
+  const d = (data && typeof data === "object") ? data : {};
+  const meta = {};
+  if (d.reference !== undefined) meta.reference = d.reference;
+  if (d.timestamp !== undefined) meta.timestamp = d.timestamp;
+  if (d.mfaType !== undefined) meta.mfaType = d.mfaType;
+  return meta;
+};
+
 /**
  * This function creates a connect object and returns it's properties
  * @param {*} key public key gotten from Mono dashboard - REQUIRED
@@ -81,6 +96,12 @@ connect.prototype.open = function () {
   connect.prototype.utils.openWidget();
 
   function handleEvents(event){
+    // Trust only messages from the Connect widget's origin. Messages
+    // dispatched by other scripts or iframes on the host page (or
+    // postMessage'd from anywhere else) are ignored.
+    if (event.origin !== WIDGET_ORIGIN) return;
+    if (!event.data || typeof event.data !== "object") return;
+
     switch(event.data.type) {
       /* Old callbacks */
       case "mono.connect.widget.charge_complete":
@@ -89,13 +110,10 @@ connect.prototype.open = function () {
         this.onEvent('SUCCESS', event.data.data);
         break;
       case "mono.connect.widget.closed":
-        connect.prototype.close();
+        this.close();
         break;
       /* New onEvent callbacks */
-      /* LOADED event is not triggered here, look in utils.js */
-      case "mono.connect.widget_opened":
-        this.onEvent('OPENED', event.data.data);
-        break;
+      /* LOADED and OPENED events are not triggered here, look in utils.js */
       case "mono.connect.error_occured":
         this.onEvent('ERROR', event.data.data);
         break;
@@ -109,10 +127,10 @@ connect.prototype.open = function () {
         this.onEvent('EXIT', event.data.data);
         break;
       case "mono.connect.login_attempt":
-        this.onEvent('SUBMIT_CREDENTIALS', event.data.data);
+        this.onEvent('SUBMIT_CREDENTIALS', safeEventMeta(event.data.data));
         break;
       case "mono.connect.mfa_submitted":
-        this.onEvent('SUBMIT_MFA', event.data.data);
+        this.onEvent('SUBMIT_MFA', safeEventMeta(event.data.data));
         break;
       case "mono.connect.account_linked":
         this.onEvent('ACCOUNT_LINKED', event.data.data);
@@ -123,13 +141,21 @@ connect.prototype.open = function () {
     }
   }
 
-  connect.prototype.eventHandler = handleEvents.bind(this);
+  // Keep the handler on the instance (not the prototype) so each instance
+  // owns its listener, and re-opening does not stack duplicate listeners.
+  if (this.eventHandler) {
+    window.removeEventListener("message", this.eventHandler, false);
+  }
+  this.eventHandler = handleEvents.bind(this);
   window.addEventListener("message", this.eventHandler, false);
 }
 
 /**connect object property to hide modal and clean up to avoid leak */
 connect.prototype.close = function () {
-  window.removeEventListener("message", this.eventHandler, false);
+  if (this.eventHandler) {
+    window.removeEventListener("message", this.eventHandler, false);
+    this.eventHandler = null;
+  }
   connect.prototype.utils.closeWidget();
   this.onClose();
 }
